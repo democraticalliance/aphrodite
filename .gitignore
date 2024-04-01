@@ -3,6 +3,4 @@
 .nyc_output
 coverage
 dist/*.map
-lib
-es
 node_modules
