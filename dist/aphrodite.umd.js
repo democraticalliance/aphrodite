@@ -2203,6 +2203,8 @@
 	exports.minify = minify;
 	exports.flushToStyleTag = flushToStyleTag;
 	exports.injectAndGetClassName = injectAndGetClassName;
+	exports.reset = reset;
+	exports.startBuffering = startBuffering;
 	exports.defaultSelectorHandlers = defaultSelectorHandlers;
 
 	Object.defineProperty(exports, '__esModule', { value: true });

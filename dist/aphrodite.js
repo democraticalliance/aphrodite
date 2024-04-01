@@ -2201,4 +2201,6 @@ exports.css = css;
 exports.minify = minify;
 exports.flushToStyleTag = flushToStyleTag;
 exports.injectAndGetClassName = injectAndGetClassName;
+exports.reset = reset;
+exports.startBuffering = startBuffering;
 exports.defaultSelectorHandlers = defaultSelectorHandlers;
