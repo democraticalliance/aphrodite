@@ -2,72 +2,51 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
+function _typeof(o) {
+  "@babel/helpers - typeof";
 
-  return _typeof(obj);
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, _typeof(o);
 }
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  _setPrototypeOf(subClass, superClass);
 }
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
-  }
-
-  return target;
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+  return _setPrototypeOf(o, p);
 }
-
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
-
 function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
-
 function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
-
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+  return arr2;
+}
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 function hash(str) {
@@ -87,39 +66,27 @@ function hash(str) {
 var stringHash = hash;
 
 /* @flow */
+
 /* ::
 type ObjectMap = { [id:string]: any };
 */
 
 var UPPERCASE_RE = /([A-Z])/g;
-
-var UPPERCASE_RE_TO_KEBAB = function UPPERCASE_RE_TO_KEBAB(match
-/* : string */
-) {
-  return (
-    /* : string */
-    "-".concat(match.toLowerCase())
-  );
-};
-
-var kebabifyStyleName = function kebabifyStyleName(string
-/* : string */
-)
-/* : string */
-{
+var UPPERCASE_RE_TO_KEBAB = function UPPERCASE_RE_TO_KEBAB(match /* : string */) {
+  return "-".concat(match.toLowerCase());
+} /* : string */;
+var kebabifyStyleName = function kebabifyStyleName(string /* : string */) {
   var result = string.replace(UPPERCASE_RE, UPPERCASE_RE_TO_KEBAB);
-
   if (result[0] === 'm' && result[1] === 's' && result[2] === '-') {
     return "-".concat(result);
   }
-
   return result;
-};
+} /* : string */;
+
 /**
  * CSS properties which accept numbers but are not in units of "px".
  * Taken from React's CSSProperty.js
  */
-
 var isUnitlessNumber = {
   animationIterationCount: true,
   borderImageOutset: true,
@@ -157,6 +124,7 @@ var isUnitlessNumber = {
   strokeOpacity: true,
   strokeWidth: true
 };
+
 /**
  * Taken from React's CSSProperty.js
  *
@@ -165,33 +133,26 @@ var isUnitlessNumber = {
  * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
  * WebkitTransitionDuration
  */
-
 function prefixKey(prefix, key) {
   return prefix + key.charAt(0).toUpperCase() + key.substring(1);
 }
+
 /**
  * Support style names that may come passed in prefixed by adding permutations
  * of vendor prefixes.
  * Taken from React's CSSProperty.js
  */
+var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
 
-
-var prefixes = ['Webkit', 'ms', 'Moz', 'O']; // Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
+// Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
 // infinite loop, because it iterates over the newly added props too.
 // Taken from React's CSSProperty.js
-
 Object.keys(isUnitlessNumber).forEach(function (prop) {
   prefixes.forEach(function (prefix) {
     isUnitlessNumber[prefixKey(prefix, prop)] = isUnitlessNumber[prop];
   });
 });
-var stringifyValue = function stringifyValue(key
-/* : string */
-, prop
-/* : any */
-)
-/* : string */
-{
+var stringifyValue = function stringifyValue(key /* : string */, prop /* : any */) {
   if (typeof prop === "number") {
     if (isUnitlessNumber[key]) {
       return "" + prop;
@@ -201,29 +162,18 @@ var stringifyValue = function stringifyValue(key
   } else {
     return '' + prop;
   }
-};
-var stringifyAndImportantifyValue = function stringifyAndImportantifyValue(key
-/* : string */
-, prop
-/* : any */
-) {
-  return (
-    /* : string */
-    importantify(stringifyValue(key, prop))
-  );
-}; // Turn a string into a hash string of base-36 values (using letters and numbers)
-// eslint-disable-next-line no-unused-vars
+} /* : string */;
+var stringifyAndImportantifyValue = function stringifyAndImportantifyValue(key /* : string */, prop /* : any */) {
+  return importantify(stringifyValue(key, prop));
+} /* : string */;
 
-var hashString = function hashString(string
-/* : string */
-, key
-/* : ?string */
-) {
-  return (
-    /* string */
-    stringHash(string).toString(36)
-  );
-}; // Hash a javascript object using JSON.stringify. This is very fast, about 3
+// Turn a string into a hash string of base-36 values (using letters and numbers)
+// eslint-disable-next-line no-unused-vars
+var hashString = function hashString(string /* : string */, key /* : ?string */) {
+  return stringHash(string).toString(36);
+} /* string */;
+
+// Hash a javascript object using JSON.stringify. This is very fast, about 3
 // microseconds on my computer for a sample object:
 // http://jsperf.com/test-hashfnv32a-hash/5
 //
@@ -231,22 +181,14 @@ var hashString = function hashString(string
 // this to produce consistent hashes browsers need to have a consistent
 // ordering of objects. Ben Alpert says that Facebook depends on this, so we
 // can probably depend on this too.
+var hashObject = function hashObject(object /* : ObjectMap */) {
+  return hashString(JSON.stringify(object));
+} /* : string */;
 
-var hashObject = function hashObject(object
-/* : ObjectMap */
-) {
-  return (
-    /* : string */
-    hashString(JSON.stringify(object))
-  );
-}; // Given a single style value string like the "b" from "a: b;", adds !important
+// Given a single style value string like the "b" from "a: b;", adds !important
 // to generate "b !important".
-
-var importantify = function importantify(string
-/* : string */
-) {
+var importantify = function importantify(string /* : string */) {
   return (
-    /* : string */
     // Bracket string character access is very fast, and in the default case we
     // normally don't expect there to be "!important" at the end of the string
     // so we can use this simple check to take an optimized path. If there
@@ -254,410 +196,17 @@ var importantify = function importantify(string
     // check.
     string[string.length - 10] === '!' && string.slice(-11) === ' !important' ? string : "".concat(string, " !important")
   );
-};
+} /* : string */;
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
-
-function getCjsExportFromNamespace (n) {
-	return n && n.default || n;
-}
-
-// Use the fastest means possible to execute a task in its own turn, with
-// priority over other events including IO, animation, reflow, and redraw
-// events in browsers.
-//
-// An exception thrown by a task will permanently interrupt the processing of
-// subsequent tasks. The higher level `asap` function ensures that if an
-// exception is thrown by a task, that the task queue will continue flushing as
-// soon as possible, but if you use `rawAsap` directly, you are responsible to
-// either ensure that no exceptions are thrown from your task, or to manually
-// call `rawAsap.requestFlush` if an exception is thrown.
-var browserRaw = rawAsap;
-function rawAsap(task) {
-    if (!queue.length) {
-        requestFlush();
-    }
-    // Equivalent to push, but avoids a function call.
-    queue[queue.length] = task;
-}
-
-var queue = [];
-// `requestFlush` is an implementation-specific method that attempts to kick
-// off a `flush` event as quickly as possible. `flush` will attempt to exhaust
-// the event queue before yielding to the browser's own event loop.
-var requestFlush;
-// The position of the next task to execute in the task queue. This is
-// preserved between calls to `flush` so that it can be resumed if
-// a task throws an exception.
-var index = 0;
-// If a task schedules additional tasks recursively, the task queue can grow
-// unbounded. To prevent memory exhaustion, the task queue will periodically
-// truncate already-completed tasks.
-var capacity = 1024;
-
-// The flush function processes all tasks that have been scheduled with
-// `rawAsap` unless and until one of those tasks throws an exception.
-// If a task throws an exception, `flush` ensures that its state will remain
-// consistent and will resume where it left off when called again.
-// However, `flush` does not make any arrangements to be called again if an
-// exception is thrown.
-function flush() {
-    while (index < queue.length) {
-        var currentIndex = index;
-        // Advance the index before calling the task. This ensures that we will
-        // begin flushing on the next task the task throws an error.
-        index = index + 1;
-        queue[currentIndex].call();
-        // Prevent leaking memory for long chains of recursive calls to `asap`.
-        // If we call `asap` within tasks scheduled by `asap`, the queue will
-        // grow, but to avoid an O(n) walk for every task we execute, we don't
-        // shift tasks off the queue after they have been executed.
-        // Instead, we periodically shift 1024 tasks off the queue.
-        if (index > capacity) {
-            // Manually shift all values starting at the index back to the
-            // beginning of the queue.
-            for (var scan = 0, newLength = queue.length - index; scan < newLength; scan++) {
-                queue[scan] = queue[scan + index];
-            }
-            queue.length -= index;
-            index = 0;
-        }
-    }
-    queue.length = 0;
-    index = 0;
-}
-
-// `requestFlush` is implemented using a strategy based on data collected from
-// every available SauceLabs Selenium web driver worker at time of writing.
-// https://docs.google.com/spreadsheets/d/1mG-5UYGup5qxGdEMWkhP6BWCz053NUb2E1QoUTU16uA/edit#gid=783724593
-
-// Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
-// have WebKitMutationObserver but not un-prefixed MutationObserver.
-// Must use `global` or `self` instead of `window` to work in both frames and web
-// workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
-
-/* globals self */
-var scope = typeof commonjsGlobal !== "undefined" ? commonjsGlobal : self;
-var BrowserMutationObserver = scope.MutationObserver || scope.WebKitMutationObserver;
-
-// MutationObservers are desirable because they have high priority and work
-// reliably everywhere they are implemented.
-// They are implemented in all modern browsers.
-//
-// - Android 4-4.3
-// - Chrome 26-34
-// - Firefox 14-29
-// - Internet Explorer 11
-// - iPad Safari 6-7.1
-// - iPhone Safari 7-7.1
-// - Safari 6-7
-if (typeof BrowserMutationObserver === "function") {
-    requestFlush = makeRequestCallFromMutationObserver(flush);
-
-// MessageChannels are desirable because they give direct access to the HTML
-// task queue, are implemented in Internet Explorer 10, Safari 5.0-1, and Opera
-// 11-12, and in web workers in many engines.
-// Although message channels yield to any queued rendering and IO tasks, they
-// would be better than imposing the 4ms delay of timers.
-// However, they do not work reliably in Internet Explorer or Safari.
-
-// Internet Explorer 10 is the only browser that has setImmediate but does
-// not have MutationObservers.
-// Although setImmediate yields to the browser's renderer, it would be
-// preferrable to falling back to setTimeout since it does not have
-// the minimum 4ms penalty.
-// Unfortunately there appears to be a bug in Internet Explorer 10 Mobile (and
-// Desktop to a lesser extent) that renders both setImmediate and
-// MessageChannel useless for the purposes of ASAP.
-// https://github.com/kriskowal/q/issues/396
-
-// Timers are implemented universally.
-// We fall back to timers in workers in most engines, and in foreground
-// contexts in the following browsers.
-// However, note that even this simple case requires nuances to operate in a
-// broad spectrum of browsers.
-//
-// - Firefox 3-13
-// - Internet Explorer 6-9
-// - iPad Safari 4.3
-// - Lynx 2.8.7
-} else {
-    requestFlush = makeRequestCallFromTimer(flush);
-}
-
-// `requestFlush` requests that the high priority event queue be flushed as
-// soon as possible.
-// This is useful to prevent an error thrown in a task from stalling the event
-// queue if the exception handled by Node.js’s
-// `process.on("uncaughtException")` or by a domain.
-rawAsap.requestFlush = requestFlush;
-
-// To request a high priority event, we induce a mutation observer by toggling
-// the text of a text node between "1" and "-1".
-function makeRequestCallFromMutationObserver(callback) {
-    var toggle = 1;
-    var observer = new BrowserMutationObserver(callback);
-    var node = document.createTextNode("");
-    observer.observe(node, {characterData: true});
-    return function requestCall() {
-        toggle = -toggle;
-        node.data = toggle;
-    };
-}
-
-// The message channel technique was discovered by Malte Ubl and was the
-// original foundation for this library.
-// http://www.nonblocking.io/2011/06/windownexttick.html
-
-// Safari 6.0.5 (at least) intermittently fails to create message ports on a
-// page's first load. Thankfully, this version of Safari supports
-// MutationObservers, so we don't need to fall back in that case.
-
-// function makeRequestCallFromMessageChannel(callback) {
-//     var channel = new MessageChannel();
-//     channel.port1.onmessage = callback;
-//     return function requestCall() {
-//         channel.port2.postMessage(0);
-//     };
-// }
-
-// For reasons explained above, we are also unable to use `setImmediate`
-// under any circumstances.
-// Even if we were, there is another bug in Internet Explorer 10.
-// It is not sufficient to assign `setImmediate` to `requestFlush` because
-// `setImmediate` must be called *by name* and therefore must be wrapped in a
-// closure.
-// Never forget.
-
-// function makeRequestCallFromSetImmediate(callback) {
-//     return function requestCall() {
-//         setImmediate(callback);
-//     };
-// }
-
-// Safari 6.0 has a problem where timers will get lost while the user is
-// scrolling. This problem does not impact ASAP because Safari 6.0 supports
-// mutation observers, so that implementation is used instead.
-// However, if we ever elect to use timers in Safari, the prevalent work-around
-// is to add a scroll event listener that calls for a flush.
-
-// `setTimeout` does not call the passed callback if the delay is less than
-// approximately 7 in web workers in Firefox 8 through 18, and sometimes not
-// even then.
-
-function makeRequestCallFromTimer(callback) {
-    return function requestCall() {
-        // We dispatch a timeout with a specified delay of 0 for engines that
-        // can reliably accommodate that request. This will usually be snapped
-        // to a 4 milisecond delay, but once we're flushing, there's no delay
-        // between events.
-        var timeoutHandle = setTimeout(handleTimer, 0);
-        // However, since this timer gets frequently dropped in Firefox
-        // workers, we enlist an interval handle that will try to fire
-        // an event 20 times per second until it succeeds.
-        var intervalHandle = setInterval(handleTimer, 50);
-
-        function handleTimer() {
-            // Whichever timer succeeds will cancel both timers and
-            // execute the callback.
-            clearTimeout(timeoutHandle);
-            clearInterval(intervalHandle);
-            callback();
-        }
-    };
-}
-
-// This is for `asap.js` only.
-// Its name will be periodically randomized to break any code that depends on
-// its existence.
-rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
-
-// rawAsap provides everything we need except exception management.
-
-// RawTasks are recycled to reduce GC churn.
-var freeTasks = [];
-// We queue errors to ensure they are thrown in right order (FIFO).
-// Array-as-queue is good enough here, since we are just dealing with exceptions.
-var pendingErrors = [];
-var requestErrorThrow = browserRaw.makeRequestCallFromTimer(throwFirstError);
-
-function throwFirstError() {
-    if (pendingErrors.length) {
-        throw pendingErrors.shift();
-    }
-}
-
-/**
- * Calls a task as soon as possible after returning, in its own event, with priority
- * over other events like animation, reflow, and repaint. An error thrown from an
- * event will not interrupt, nor even substantially slow down the processing of
- * other events, but will be rather postponed to a lower priority event.
- * @param {{call}} task A callable object, typically a function that takes no
- * arguments.
- */
-var browserAsap = asap;
-function asap(task) {
-    var rawTask;
-    if (freeTasks.length) {
-        rawTask = freeTasks.pop();
-    } else {
-        rawTask = new RawTask();
-    }
-    rawTask.task = task;
-    browserRaw(rawTask);
-}
-
-// We wrap tasks with recyclable task objects.  A task object implements
-// `call`, just like a function.
-function RawTask() {
-    this.task = null;
-}
-
-// The sole purpose of wrapping the task is to catch the exception and recycle
-// the task object after its single use.
-RawTask.prototype.call = function () {
-    try {
-        this.task.call();
-    } catch (error) {
-        if (asap.onerror) {
-            // This hook exists purely for testing purposes.
-            // Its name will be periodically randomized to break any code that
-            // depends on its existence.
-            asap.onerror(error);
-        } else {
-            // In a web browser, exceptions are not fatal. However, to avoid
-            // slowing down the queue of pending tasks, we rethrow the error in a
-            // lower priority turn.
-            pendingErrors.push(error);
-            requestErrorThrow();
-        }
-    } finally {
-        this.task = null;
-        freeTasks[freeTasks.length] = this;
-    }
-};
-
-/* @flow */
-var MAP_EXISTS = typeof Map !== 'undefined';
-
-var OrderedElements =
-/*#__PURE__*/
-function () {
-  /* ::
-  elements: {[string]: any};
-  keyOrder: string[];
-  */
-  function OrderedElements() {
-    this.elements = {};
-    this.keyOrder = [];
-  }
-
-  var _proto = OrderedElements.prototype;
-
-  _proto.forEach = function forEach(callback
-  /* : (string, any) => void */
-  ) {
-    for (var i = 0; i < this.keyOrder.length; i++) {
-      // (value, key) to match Map's API
-      callback(this.elements[this.keyOrder[i]], this.keyOrder[i]);
-    }
-  };
-
-  _proto.set = function set(key
-  /* : string */
-  , value
-  /* : any */
-  , shouldReorder
-  /* : ?boolean */
-  ) {
-    if (!this.elements.hasOwnProperty(key)) {
-      this.keyOrder.push(key);
-    } else if (shouldReorder) {
-      var index = this.keyOrder.indexOf(key);
-      this.keyOrder.splice(index, 1);
-      this.keyOrder.push(key);
-    }
-
-    if (value == null) {
-      this.elements[key] = value;
-      return;
-    }
-
-    if (MAP_EXISTS && value instanceof Map || value instanceof OrderedElements) {
-      // We have found a nested Map, so we need to recurse so that all
-      // of the nested objects and Maps are merged properly.
-      var nested = this.elements.hasOwnProperty(key) ? this.elements[key] : new OrderedElements();
-      value.forEach(function (value, key) {
-        nested.set(key, value, shouldReorder);
-      });
-      this.elements[key] = nested;
-      return;
-    }
-
-    if (!Array.isArray(value) && _typeof(value) === 'object') {
-      // We have found a nested object, so we need to recurse so that all
-      // of the nested objects and Maps are merged properly.
-      var _nested = this.elements.hasOwnProperty(key) ? this.elements[key] : new OrderedElements();
-
-      var keys = Object.keys(value);
-
-      for (var i = 0; i < keys.length; i += 1) {
-        _nested.set(keys[i], value[keys[i]], shouldReorder);
-      }
-
-      this.elements[key] = _nested;
-      return;
-    }
-
-    this.elements[key] = value;
-  };
-
-  _proto.get = function get(key
-  /* : string */
-  )
-  /* : any */
-  {
-    return this.elements[key];
-  };
-
-  _proto.has = function has(key
-  /* : string */
-  )
-  /* : boolean */
-  {
-    return this.elements.hasOwnProperty(key);
-  };
-
-  _proto.addStyleType = function addStyleType(styleType
-  /* : any */
-  )
-  /* : void */
-  {
-    var _this = this;
-
-    if (MAP_EXISTS && styleType instanceof Map || styleType instanceof OrderedElements) {
-      styleType.forEach(function (value, key) {
-        _this.set(key, value, true);
-      });
-    } else {
-      var keys = Object.keys(styleType);
-
-      for (var i = 0; i < keys.length; i++) {
-        this.set(keys[i], styleType[keys[i]], true);
-      }
-    }
-  };
-
-  return OrderedElements;
-}();
 
 var capitalizeString_1 = createCommonjsModule(function (module, exports) {
 
@@ -1156,6 +705,10 @@ function isSimplePositionValue(value) {
   return typeof value === 'number' && !isNaN(value);
 }
 
+function isComplexSpanValue(value) {
+  return typeof value === 'string' && value.includes('/');
+}
+
 var alignmentValues = ['center', 'end', 'start', 'stretch'];
 
 var displayValues = {
@@ -1173,16 +726,26 @@ var propertyConverters = {
   gridColumn: function gridColumn(value, style) {
     if (isSimplePositionValue(value)) {
       style.msGridColumn = value;
-    } else {
-      var _value$split$map = value.split('/').map(function (position) {
-        return +position;
-      }),
-          _value$split$map2 = _slicedToArray(_value$split$map, 2),
-          start = _value$split$map2[0],
-          end = _value$split$map2[1];
+    } else if (isComplexSpanValue(value)) {
+      var _value$split = value.split('/'),
+          _value$split2 = _slicedToArray(_value$split, 2),
+          start = _value$split2[0],
+          end = _value$split2[1];
 
-      propertyConverters.gridColumnStart(start, style);
-      propertyConverters.gridColumnEnd(end, style);
+      propertyConverters.gridColumnStart(+start, style);
+
+      var _end$split = end.split(/ ?span /),
+          _end$split2 = _slicedToArray(_end$split, 2),
+          maybeSpan = _end$split2[0],
+          maybeNumber = _end$split2[1];
+
+      if (maybeSpan === '') {
+        propertyConverters.gridColumnEnd(+start + +maybeNumber, style);
+      } else {
+        propertyConverters.gridColumnEnd(+end, style);
+      }
+    } else {
+      propertyConverters.gridColumnStart(value, style);
     }
   },
 
@@ -1203,16 +766,26 @@ var propertyConverters = {
   gridRow: function gridRow(value, style) {
     if (isSimplePositionValue(value)) {
       style.msGridRow = value;
-    } else {
-      var _value$split$map3 = value.split('/').map(function (position) {
-        return +position;
-      }),
-          _value$split$map4 = _slicedToArray(_value$split$map3, 2),
-          start = _value$split$map4[0],
-          end = _value$split$map4[1];
+    } else if (isComplexSpanValue(value)) {
+      var _value$split3 = value.split('/'),
+          _value$split4 = _slicedToArray(_value$split3, 2),
+          start = _value$split4[0],
+          end = _value$split4[1];
 
-      propertyConverters.gridRowStart(start, style);
-      propertyConverters.gridRowEnd(end, style);
+      propertyConverters.gridRowStart(+start, style);
+
+      var _end$split3 = end.split(/ ?span /),
+          _end$split4 = _slicedToArray(_end$split3, 2),
+          maybeSpan = _end$split4[0],
+          maybeNumber = _end$split4[1];
+
+      if (maybeSpan === '') {
+        propertyConverters.gridRowEnd(+start + +maybeNumber, style);
+      } else {
+        propertyConverters.gridRowEnd(+end, style);
+      }
+    } else {
+      propertyConverters.gridRowStart(value, style);
     }
   },
 
@@ -1381,29 +954,20 @@ function sizing(property, value) {
 
 var sizing = unwrapExports(sizing_1);
 
-/* eslint-disable no-var, prefer-template */
 var uppercasePattern = /[A-Z]/g;
 var msPattern = /^ms-/;
 var cache = {};
 
-function toHyphenLower(match) {
-  return '-' + match.toLowerCase()
+function hyphenateStyleName(string) {
+    return string in cache
+    ? cache[string]
+    : cache[string] = string
+      .replace(uppercasePattern, '-$&')
+      .toLowerCase()
+      .replace(msPattern, '-ms-');
 }
 
-function hyphenateStyleName(name) {
-  if (cache.hasOwnProperty(name)) {
-    return cache[name]
-  }
-
-  var hName = name.replace(uppercasePattern, toHyphenLower);
-  return (cache[name] = msPattern.test(hName) ? '-' + hName : hName)
-}
-
-var hyphenateStyleName$1 = /*#__PURE__*/Object.freeze({
-  default: hyphenateStyleName
-});
-
-var _hyphenateStyleName = getCjsExportFromNamespace(hyphenateStyleName$1);
+var hyphenateStyleName_1 = hyphenateStyleName;
 
 var hyphenateProperty_1 = createCommonjsModule(function (module, exports) {
 
@@ -1414,7 +978,7 @@ exports.default = hyphenateProperty;
 
 
 
-var _hyphenateStyleName2 = _interopRequireDefault(_hyphenateStyleName);
+var _hyphenateStyleName2 = _interopRequireDefault(hyphenateStyleName_1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1549,32 +1113,32 @@ var staticData = {
     "animationName": w,
     "animationPlayState": w,
     "animationTimingFunction": w,
-    "appearance": wm,
+    "appearance": wmms,
     "userSelect": wmms,
     "fontKerning": w,
-    "textEmphasisPosition": w,
-    "textEmphasis": w,
-    "textEmphasisStyle": w,
-    "textEmphasisColor": w,
-    "boxDecorationBreak": w,
+    "textEmphasisPosition": wms,
+    "textEmphasis": wms,
+    "textEmphasisStyle": wms,
+    "textEmphasisColor": wms,
+    "boxDecorationBreak": wms,
     "clipPath": w,
-    "maskImage": w,
-    "maskMode": w,
-    "maskRepeat": w,
-    "maskPosition": w,
-    "maskClip": w,
-    "maskOrigin": w,
-    "maskSize": w,
-    "maskComposite": w,
-    "mask": w,
-    "maskBorderSource": w,
-    "maskBorderMode": w,
-    "maskBorderSlice": w,
-    "maskBorderWidth": w,
-    "maskBorderOutset": w,
-    "maskBorderRepeat": w,
-    "maskBorder": w,
-    "maskType": w,
+    "maskImage": wms,
+    "maskMode": wms,
+    "maskRepeat": wms,
+    "maskPosition": wms,
+    "maskClip": wms,
+    "maskOrigin": wms,
+    "maskSize": wms,
+    "maskComposite": wms,
+    "mask": wms,
+    "maskBorderSource": wms,
+    "maskBorderMode": wms,
+    "maskBorderSlice": wms,
+    "maskBorderWidth": wms,
+    "maskBorderOutset": wms,
+    "maskBorderRepeat": wms,
+    "maskBorder": wms,
+    "maskType": wms,
     "textDecorationStyle": wm,
     "textDecorationSkip": wm,
     "textDecorationLine": wm,
@@ -1632,7 +1196,7 @@ var staticData = {
     "wrapThrough": ms,
     "wrapMargin": ms,
     "touchAction": ms,
-    "textSizeAdjust": wms,
+    "textSizeAdjust": ["ms", "Webkit"],
     "borderImage": w,
     "borderImageOutset": w,
     "borderImageRepeat": w,
@@ -1642,7 +1206,84 @@ var staticData = {
   }
 };
 
+/* @flow */
+var MAP_EXISTS = typeof Map !== 'undefined';
+var OrderedElements = /*#__PURE__*/function () {
+  /* ::
+  elements: {[string]: any};
+  keyOrder: string[];
+  */
+
+  function OrderedElements() {
+    this.elements = {};
+    this.keyOrder = [];
+  }
+  var _proto = OrderedElements.prototype;
+  _proto.forEach = function forEach(callback /* : (string, any) => void */) {
+    for (var i = 0; i < this.keyOrder.length; i++) {
+      // (value, key) to match Map's API
+      callback(this.elements[this.keyOrder[i]], this.keyOrder[i]);
+    }
+  };
+  _proto.set = function set(key /* : string */, value /* : any */, shouldReorder /* : ?boolean */) {
+    if (!this.elements.hasOwnProperty(key)) {
+      this.keyOrder.push(key);
+    } else if (shouldReorder) {
+      var index = this.keyOrder.indexOf(key);
+      this.keyOrder.splice(index, 1);
+      this.keyOrder.push(key);
+    }
+    if (value == null) {
+      this.elements[key] = value;
+      return;
+    }
+    if (MAP_EXISTS && value instanceof Map || value instanceof OrderedElements) {
+      // We have found a nested Map, so we need to recurse so that all
+      // of the nested objects and Maps are merged properly.
+      var nested = this.elements.hasOwnProperty(key) ? this.elements[key] : new OrderedElements();
+      value.forEach(function (value, key) {
+        nested.set(key, value, shouldReorder);
+      });
+      this.elements[key] = nested;
+      return;
+    }
+    if (!Array.isArray(value) && _typeof(value) === 'object') {
+      // We have found a nested object, so we need to recurse so that all
+      // of the nested objects and Maps are merged properly.
+      var _nested = this.elements.hasOwnProperty(key) ? this.elements[key] : new OrderedElements();
+      var keys = Object.keys(value);
+      for (var i = 0; i < keys.length; i += 1) {
+        _nested.set(keys[i], value[keys[i]], shouldReorder);
+      }
+      this.elements[key] = _nested;
+      return;
+    }
+    this.elements[key] = value;
+  };
+  _proto.get = function get(key /* : string */) /* : any */{
+    return this.elements[key];
+  };
+  _proto.has = function has(key /* : string */) /* : boolean */{
+    return this.elements.hasOwnProperty(key);
+  };
+  _proto.addStyleType = function addStyleType(styleType /* : any */) /* : void */{
+    var _this = this;
+    if (MAP_EXISTS && styleType instanceof Map || styleType instanceof OrderedElements) {
+      styleType.forEach(function (value, key) {
+        _this.set(key, value, true);
+      });
+    } else {
+      var keys = Object.keys(styleType);
+      for (var i = 0; i < keys.length; i++) {
+        this.set(keys[i], styleType[keys[i]], true);
+      }
+    }
+  };
+  return OrderedElements;
+}();
+
 var prefixAll = createPrefixer(staticData);
+
 /* ::
 import type { SheetDefinition } from './index.js';
 type StringHandlers = { [id:string]: Function };
@@ -1703,26 +1344,24 @@ export type SelectorHandler = (
  * @returns {string[] | string | null} The generated CSS for this selector, or
  *     null if we don't handle this selector.
  */
-
-var defaultSelectorHandlers
-/* : SelectorHandler[] */
-= [// Handle pseudo-selectors, like :hover and :nth-child(3n)
+var defaultSelectorHandlers /* : SelectorHandler[] */ = [
+// Handle pseudo-selectors, like :hover and :nth-child(3n)
 function pseudoSelectors(selector, baseSelector, generateSubtreeStyles) {
   if (selector[0] !== ":") {
     return null;
   }
-
   return generateSubtreeStyles(baseSelector + selector);
-}, // Handle media queries (or font-faces)
+},
+// Handle media queries (or font-faces)
 function mediaQueries(selector, baseSelector, generateSubtreeStyles) {
   if (selector[0] !== "@") {
     return null;
-  } // Generate the styles normally, and then wrap them in the media query.
-
-
+  }
+  // Generate the styles normally, and then wrap them in the media query.
   var generated = generateSubtreeStyles(baseSelector);
   return ["".concat(selector, "{").concat(generated.join(''), "}")];
 }];
+
 /**
  * Generate CSS for a selector and some styles.
  *
@@ -1766,29 +1405,15 @@ function mediaQueries(selector, baseSelector, generateSubtreeStyles) {
  *     generateCSSRuleset(".foo", { height: 20 }, ...)
  *     generateCSSRuleset(".foo:hover", { backgroundColor: "black" }, ...)
  */
-
-var generateCSS = function generateCSS(selector
-/* : string */
-, styleTypes
-/* : SheetDefinition[] */
-, selectorHandlers
-/* : SelectorHandler[] */
-, stringHandlers
-/* : StringHandlers */
-, useImportant
-/* : boolean */
-)
-/* : string[] */
-{
+var generateCSS = function generateCSS(selector /* : string */, styleTypes /* : SheetDefinition[] */, selectorHandlers /* : SelectorHandler[] */, stringHandlers /* : StringHandlers */, useImportant /* : boolean */) {
   var merged = new OrderedElements();
-
   for (var i = 0; i < styleTypes.length; i++) {
     merged.addStyleType(styleTypes[i]);
   }
-
   var plainDeclarations = new OrderedElements();
-  var generatedStyles = []; // TODO(emily): benchmark this to see if a plain for loop would be faster.
+  var generatedStyles = [];
 
+  // TODO(emily): benchmark this to see if a plain for loop would be faster.
   merged.forEach(function (val, key) {
     // For each key, see if one of the selector handlers will handle these
     // styles.
@@ -1796,7 +1421,6 @@ var generateCSS = function generateCSS(selector
       var result = handler(key, selector, function (newSelector) {
         return generateCSS(newSelector, [val], selectorHandlers, stringHandlers, useImportant);
       });
-
       if (result != null) {
         // If the handler returned something, add it to the generated
         // CSS and stop looking for another handler.
@@ -1807,49 +1431,35 @@ var generateCSS = function generateCSS(selector
           console.warn('WARNING: Selector handlers should return an array of rules.' + 'Returning a string containing multiple rules is deprecated.', handler);
           generatedStyles.push("@media all {".concat(result, "}"));
         }
-
         return true;
       }
-    }); // If none of the handlers handled it, add it to the list of plain
+    });
+    // If none of the handlers handled it, add it to the list of plain
     // style declarations.
-
     if (!foundHandler) {
       plainDeclarations.set(key, val, true);
     }
   });
   var generatedRuleset = generateCSSRuleset(selector, plainDeclarations, stringHandlers, useImportant, selectorHandlers);
-
   if (generatedRuleset) {
     generatedStyles.unshift(generatedRuleset);
   }
-
   return generatedStyles;
-};
+} /* : string[] */;
+
 /**
  * Helper method of generateCSSRuleset to facilitate custom handling of certain
  * CSS properties. Used for e.g. font families.
  *
  * See generateCSSRuleset for usage and documentation of paramater types.
  */
-
-var runStringHandlers = function runStringHandlers(declarations
-/* : OrderedElements */
-, stringHandlers
-/* : StringHandlers */
-, selectorHandlers
-/* : SelectorHandler[] */
-)
-/* : void */
-{
+var runStringHandlers = function runStringHandlers(declarations /* : OrderedElements */, stringHandlers /* : StringHandlers */, selectorHandlers /* : SelectorHandler[] */) {
   if (!stringHandlers) {
     return;
   }
-
   var stringHandlerKeys = Object.keys(stringHandlers);
-
   for (var i = 0; i < stringHandlerKeys.length; i++) {
     var key = stringHandlerKeys[i];
-
     if (declarations.has(key)) {
       // A declaration exists for this particular string handler, so we
       // need to let the string handler interpret the declaration first
@@ -1860,31 +1470,22 @@ var runStringHandlers = function runStringHandlers(declarations
       // `selectorHandlers` and have them make calls to `generateCSS`
       // themselves. Right now, this is impractical because our string
       // handlers are very specialized and do complex things.
-      declarations.set(key, stringHandlers[key](declarations.get(key), selectorHandlers), // Preserve order here, since we are really replacing an
+      declarations.set(key, stringHandlers[key](declarations.get(key), selectorHandlers),
+      // Preserve order here, since we are really replacing an
       // unprocessed style with a processed style, not overriding an
       // earlier style
       false);
     }
   }
-};
-
-var transformRule = function transformRule(key
-/* : string */
-, value
-/* : string */
-, transformValue
-/* : function */
-) {
-  return (
-    /* : string */
-    "".concat(kebabifyStyleName(key), ":").concat(transformValue(key, value), ";")
-  );
-};
-
+} /* : void */;
+var transformRule = function transformRule(key /* : string */, value /* : string */, transformValue /* : function */) {
+  return "".concat(kebabifyStyleName(key), ":").concat(transformValue(key, value), ";");
+} /* : string */;
 var arrayToObjectKeysReducer = function arrayToObjectKeysReducer(acc, val) {
   acc[val] = true;
   return acc;
 };
+
 /**
  * Generate a CSS ruleset with the selector and containing the declarations.
  *
@@ -1916,28 +1517,14 @@ var arrayToObjectKeysReducer = function arrayToObjectKeysReducer(acc, val) {
  *    generateCSSRuleset(".blah:hover", { color: "red" })
  *    -> ".blah:hover{color: red}"
  */
-
-
-var generateCSSRuleset = function generateCSSRuleset(selector
-/* : string */
-, declarations
-/* : OrderedElements */
-, stringHandlers
-/* : StringHandlers */
-, useImportant
-/* : boolean */
-, selectorHandlers
-/* : SelectorHandler[] */
-)
-/* : string */
-{
+var generateCSSRuleset = function generateCSSRuleset(selector /* : string */, declarations /* : OrderedElements */, stringHandlers /* : StringHandlers */, useImportant /* : boolean */, selectorHandlers /* : SelectorHandler[] */) {
   // Mutates declarations
   runStringHandlers(declarations, stringHandlers, selectorHandlers);
-  var originalElements = Object.keys(declarations.elements).reduce(arrayToObjectKeysReducer, Object.create(null)); // NOTE(emily): This mutates handledDeclarations.elements.
+  var originalElements = Object.keys(declarations.elements).reduce(arrayToObjectKeysReducer, Object.create(null));
 
+  // NOTE(emily): This mutates handledDeclarations.elements.
   var prefixedElements = prefixAll(declarations.elements);
   var elementNames = Object.keys(prefixedElements);
-
   if (elementNames.length !== declarations.keyOrder.length) {
     // There are some prefixed values, so we need to figure out how to sort
     // them.
@@ -1951,7 +1538,6 @@ var generateCSSRuleset = function generateCSSRuleset(selector
         // value that was added by prefixAll. Let's try to figure out where it
         // goes.
         var originalStyle = void 0;
-
         if (elementNames[i][0] === 'W') {
           // This is a Webkit-prefixed style, like "WebkitTransition". Let's
           // find its original style's sort order.
@@ -1966,7 +1552,6 @@ var generateCSSRuleset = function generateCSSRuleset(selector
           // This is a Ms-prefixed style, like "MsTransition".
           originalStyle = elementNames[i][2].toLowerCase() + elementNames[i].slice(3);
         }
-
         if (originalStyle && originalElements[originalStyle]) {
           var originalIndex = declarations.keyOrder.indexOf(originalStyle);
           declarations.keyOrder.splice(originalIndex, 0, elementNames[i]);
@@ -1979,14 +1564,11 @@ var generateCSSRuleset = function generateCSSRuleset(selector
       }
     }
   }
-
   var transformValue = useImportant === false ? stringifyValue : stringifyAndImportantifyValue;
   var rules = [];
-
   for (var _i = 0; _i < declarations.keyOrder.length; _i++) {
     var key = declarations.keyOrder[_i];
     var value = prefixedElements[key];
-
     if (Array.isArray(value)) {
       // inline-style-prefixer returns an array when there should be
       // multiple rules for the same key. Here we flatten to multiple
@@ -1998,12 +1580,286 @@ var generateCSSRuleset = function generateCSSRuleset(selector
       rules.push(transformRule(key, value, transformValue));
     }
   }
-
   if (rules.length) {
     return "".concat(selector, "{").concat(rules.join(""), "}");
   } else {
     return "";
   }
+} /* : string */;
+
+// Use the fastest means possible to execute a task in its own turn, with
+// priority over other events including IO, animation, reflow, and redraw
+// events in browsers.
+//
+// An exception thrown by a task will permanently interrupt the processing of
+// subsequent tasks. The higher level `asap` function ensures that if an
+// exception is thrown by a task, that the task queue will continue flushing as
+// soon as possible, but if you use `rawAsap` directly, you are responsible to
+// either ensure that no exceptions are thrown from your task, or to manually
+// call `rawAsap.requestFlush` if an exception is thrown.
+var browserRaw = rawAsap;
+function rawAsap(task) {
+    if (!queue.length) {
+        requestFlush();
+    }
+    // Equivalent to push, but avoids a function call.
+    queue[queue.length] = task;
+}
+
+var queue = [];
+// `requestFlush` is an implementation-specific method that attempts to kick
+// off a `flush` event as quickly as possible. `flush` will attempt to exhaust
+// the event queue before yielding to the browser's own event loop.
+var requestFlush;
+// The position of the next task to execute in the task queue. This is
+// preserved between calls to `flush` so that it can be resumed if
+// a task throws an exception.
+var index = 0;
+// If a task schedules additional tasks recursively, the task queue can grow
+// unbounded. To prevent memory exhaustion, the task queue will periodically
+// truncate already-completed tasks.
+var capacity = 1024;
+
+// The flush function processes all tasks that have been scheduled with
+// `rawAsap` unless and until one of those tasks throws an exception.
+// If a task throws an exception, `flush` ensures that its state will remain
+// consistent and will resume where it left off when called again.
+// However, `flush` does not make any arrangements to be called again if an
+// exception is thrown.
+function flush() {
+    while (index < queue.length) {
+        var currentIndex = index;
+        // Advance the index before calling the task. This ensures that we will
+        // begin flushing on the next task the task throws an error.
+        index = index + 1;
+        queue[currentIndex].call();
+        // Prevent leaking memory for long chains of recursive calls to `asap`.
+        // If we call `asap` within tasks scheduled by `asap`, the queue will
+        // grow, but to avoid an O(n) walk for every task we execute, we don't
+        // shift tasks off the queue after they have been executed.
+        // Instead, we periodically shift 1024 tasks off the queue.
+        if (index > capacity) {
+            // Manually shift all values starting at the index back to the
+            // beginning of the queue.
+            for (var scan = 0, newLength = queue.length - index; scan < newLength; scan++) {
+                queue[scan] = queue[scan + index];
+            }
+            queue.length -= index;
+            index = 0;
+        }
+    }
+    queue.length = 0;
+    index = 0;
+}
+
+// `requestFlush` is implemented using a strategy based on data collected from
+// every available SauceLabs Selenium web driver worker at time of writing.
+// https://docs.google.com/spreadsheets/d/1mG-5UYGup5qxGdEMWkhP6BWCz053NUb2E1QoUTU16uA/edit#gid=783724593
+
+// Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
+// have WebKitMutationObserver but not un-prefixed MutationObserver.
+// Must use `global` or `self` instead of `window` to work in both frames and web
+// workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
+
+/* globals self */
+var scope = typeof commonjsGlobal !== "undefined" ? commonjsGlobal : self;
+var BrowserMutationObserver = scope.MutationObserver || scope.WebKitMutationObserver;
+
+// MutationObservers are desirable because they have high priority and work
+// reliably everywhere they are implemented.
+// They are implemented in all modern browsers.
+//
+// - Android 4-4.3
+// - Chrome 26-34
+// - Firefox 14-29
+// - Internet Explorer 11
+// - iPad Safari 6-7.1
+// - iPhone Safari 7-7.1
+// - Safari 6-7
+if (typeof BrowserMutationObserver === "function") {
+    requestFlush = makeRequestCallFromMutationObserver(flush);
+
+// MessageChannels are desirable because they give direct access to the HTML
+// task queue, are implemented in Internet Explorer 10, Safari 5.0-1, and Opera
+// 11-12, and in web workers in many engines.
+// Although message channels yield to any queued rendering and IO tasks, they
+// would be better than imposing the 4ms delay of timers.
+// However, they do not work reliably in Internet Explorer or Safari.
+
+// Internet Explorer 10 is the only browser that has setImmediate but does
+// not have MutationObservers.
+// Although setImmediate yields to the browser's renderer, it would be
+// preferrable to falling back to setTimeout since it does not have
+// the minimum 4ms penalty.
+// Unfortunately there appears to be a bug in Internet Explorer 10 Mobile (and
+// Desktop to a lesser extent) that renders both setImmediate and
+// MessageChannel useless for the purposes of ASAP.
+// https://github.com/kriskowal/q/issues/396
+
+// Timers are implemented universally.
+// We fall back to timers in workers in most engines, and in foreground
+// contexts in the following browsers.
+// However, note that even this simple case requires nuances to operate in a
+// broad spectrum of browsers.
+//
+// - Firefox 3-13
+// - Internet Explorer 6-9
+// - iPad Safari 4.3
+// - Lynx 2.8.7
+} else {
+    requestFlush = makeRequestCallFromTimer(flush);
+}
+
+// `requestFlush` requests that the high priority event queue be flushed as
+// soon as possible.
+// This is useful to prevent an error thrown in a task from stalling the event
+// queue if the exception handled by Node.js’s
+// `process.on("uncaughtException")` or by a domain.
+rawAsap.requestFlush = requestFlush;
+
+// To request a high priority event, we induce a mutation observer by toggling
+// the text of a text node between "1" and "-1".
+function makeRequestCallFromMutationObserver(callback) {
+    var toggle = 1;
+    var observer = new BrowserMutationObserver(callback);
+    var node = document.createTextNode("");
+    observer.observe(node, {characterData: true});
+    return function requestCall() {
+        toggle = -toggle;
+        node.data = toggle;
+    };
+}
+
+// The message channel technique was discovered by Malte Ubl and was the
+// original foundation for this library.
+// http://www.nonblocking.io/2011/06/windownexttick.html
+
+// Safari 6.0.5 (at least) intermittently fails to create message ports on a
+// page's first load. Thankfully, this version of Safari supports
+// MutationObservers, so we don't need to fall back in that case.
+
+// function makeRequestCallFromMessageChannel(callback) {
+//     var channel = new MessageChannel();
+//     channel.port1.onmessage = callback;
+//     return function requestCall() {
+//         channel.port2.postMessage(0);
+//     };
+// }
+
+// For reasons explained above, we are also unable to use `setImmediate`
+// under any circumstances.
+// Even if we were, there is another bug in Internet Explorer 10.
+// It is not sufficient to assign `setImmediate` to `requestFlush` because
+// `setImmediate` must be called *by name* and therefore must be wrapped in a
+// closure.
+// Never forget.
+
+// function makeRequestCallFromSetImmediate(callback) {
+//     return function requestCall() {
+//         setImmediate(callback);
+//     };
+// }
+
+// Safari 6.0 has a problem where timers will get lost while the user is
+// scrolling. This problem does not impact ASAP because Safari 6.0 supports
+// mutation observers, so that implementation is used instead.
+// However, if we ever elect to use timers in Safari, the prevalent work-around
+// is to add a scroll event listener that calls for a flush.
+
+// `setTimeout` does not call the passed callback if the delay is less than
+// approximately 7 in web workers in Firefox 8 through 18, and sometimes not
+// even then.
+
+function makeRequestCallFromTimer(callback) {
+    return function requestCall() {
+        // We dispatch a timeout with a specified delay of 0 for engines that
+        // can reliably accommodate that request. This will usually be snapped
+        // to a 4 milisecond delay, but once we're flushing, there's no delay
+        // between events.
+        var timeoutHandle = setTimeout(handleTimer, 0);
+        // However, since this timer gets frequently dropped in Firefox
+        // workers, we enlist an interval handle that will try to fire
+        // an event 20 times per second until it succeeds.
+        var intervalHandle = setInterval(handleTimer, 50);
+
+        function handleTimer() {
+            // Whichever timer succeeds will cancel both timers and
+            // execute the callback.
+            clearTimeout(timeoutHandle);
+            clearInterval(intervalHandle);
+            callback();
+        }
+    };
+}
+
+// This is for `asap.js` only.
+// Its name will be periodically randomized to break any code that depends on
+// its existence.
+rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
+
+// rawAsap provides everything we need except exception management.
+
+// RawTasks are recycled to reduce GC churn.
+var freeTasks = [];
+// We queue errors to ensure they are thrown in right order (FIFO).
+// Array-as-queue is good enough here, since we are just dealing with exceptions.
+var pendingErrors = [];
+var requestErrorThrow = browserRaw.makeRequestCallFromTimer(throwFirstError);
+
+function throwFirstError() {
+    if (pendingErrors.length) {
+        throw pendingErrors.shift();
+    }
+}
+
+/**
+ * Calls a task as soon as possible after returning, in its own event, with priority
+ * over other events like animation, reflow, and repaint. An error thrown from an
+ * event will not interrupt, nor even substantially slow down the processing of
+ * other events, but will be rather postponed to a lower priority event.
+ * @param {{call}} task A callable object, typically a function that takes no
+ * arguments.
+ */
+var browserAsap = asap;
+function asap(task) {
+    var rawTask;
+    if (freeTasks.length) {
+        rawTask = freeTasks.pop();
+    } else {
+        rawTask = new RawTask();
+    }
+    rawTask.task = task;
+    browserRaw(rawTask);
+}
+
+// We wrap tasks with recyclable task objects.  A task object implements
+// `call`, just like a function.
+function RawTask() {
+    this.task = null;
+}
+
+// The sole purpose of wrapping the task is to catch the exception and recycle
+// the task object after its single use.
+RawTask.prototype.call = function () {
+    try {
+        this.task.call();
+    } catch (error) {
+        if (asap.onerror) {
+            // This hook exists purely for testing purposes.
+            // Its name will be periodically randomized to break any code that
+            // depends on its existence.
+            asap.onerror(error);
+        } else {
+            // In a web browser, exceptions are not fatal. However, to avoid
+            // slowing down the queue of pending tasks, we rethrow the error in a
+            // lower priority turn.
+            pendingErrors.push(error);
+            requestErrorThrow();
+        }
+    } finally {
+        this.task = null;
+        freeTasks[freeTasks.length] = this;
+    }
 };
 
 /* ::
@@ -2011,79 +1867,103 @@ import type { SheetDefinition, SheetDefinitions } from './index.js';
 import type { MaybeSheetDefinition } from './exports.js';
 import type { SelectorHandler } from './generate.js';
 */
-// The current <style> tag we are inserting into, or null if we haven't
-// inserted anything yet. We could find this each time using
-// `document.querySelector("style[data-aphrodite"])`, but holding onto it is
-// faster.
 
-var styleTag
-/* : ?HTMLStyleElement */
-= null; // Inject a set of rules into a <style> tag in the head of the document. This
-// will automatically create a style tag and then continue to use it for
-// multiple injections. It will also use a style tag with the `data-aphrodite`
-// tag on it if that exists in the DOM. This could be used for e.g. reusing the
-// same style tag that server-side rendering inserts.
+var Inject = /*#__PURE__*/function () {
+  function Inject() {
+    var _this = this;
+    // The current <style> tag we are inserting into, or null if we haven't
+    // inserted anything yet. We could find this each time using
+    // `document.querySelector("style[data-aphrodite"])`, but holding onto it is
+    // faster.
+    /** @type {any} */
+    this.styleTag = null;
+    // This is a map from Aphrodite's generated class names to `true` (acting as a
+    // set of class names)
+    this.alreadyInjected = {};
 
-var injectStyleTag = function injectStyleTag(cssRules
-/* : string[] */
-) {
-  if (styleTag == null) {
-    // Try to find a style tag with the `data-aphrodite` attribute first.
-    styleTag = document.querySelector("style[data-aphrodite]")
-    /* : any */
-    ; // If that doesn't work, generate a new style tag.
+    // This is the buffer of styles which have not yet been flushed.
+    /** @type {string[]} */
+    this.injectionBuffer = [];
 
-    if (styleTag == null) {
-      // Taken from
-      // http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript
-      var head = document.head || document.getElementsByTagName('head')[0];
-      styleTag = document.createElement('style');
-      styleTag.type = 'text/css';
-      styleTag.setAttribute("data-aphrodite", "");
-      head.appendChild(styleTag);
-    }
-  } // $FlowFixMe
-
-
-  var sheet = styleTag.styleSheet || styleTag.sheet
-  /* : any */
-  ;
-
-  if (sheet.insertRule) {
-    var numRules = sheet.cssRules.length;
-    cssRules.forEach(function (rule) {
-      try {
-        sheet.insertRule(rule, numRules);
-        numRules += 1;
-      } catch (e) {// The selector for this rule wasn't compatible with the browser
+    // A flag to tell if we are already buffering styles. This could happen either
+    // because we scheduled a flush call already, so newly added styles will
+    // already be flushed, or because we are statically buffering on the server.
+    this.isBuffering = false;
+    this.stringHandlers = {
+      animationName: this.animationName.bind(this),
+      fontFamily: this.fontFamily.bind(this)
+    };
+    this.flushToStyleTag = function () {
+      var cssRules = _this.flushToArray();
+      if (cssRules.length > 0) {
+        _this.injectStyleTag(cssRules);
       }
-    });
-  } else {
-    styleTag.innerText = (styleTag.innerText || '') + cssRules.join('');
+    };
   }
-}; // Custom handlers for stringifying CSS values that have side effects
-// (such as fontFamily, which can cause @font-face rules to be injected)
 
+  // Inject a set of rules into a <style> tag in the head of the document. This
+  // will automatically create a style tag and then continue to use it for
+  // multiple injections. It will also use a style tag with the `data-aphrodite`
+  // tag on it if that exists in the DOM. This could be used for e.g. reusing the
+  // same style tag that server-side rendering inserts.
+  var _proto = Inject.prototype;
+  _proto.injectStyleTag = function injectStyleTag(cssRules /* : string[] */) {
+    if (this.styleTag == null) {
+      // Try to find a style tag with the `data-aphrodite` attribute first.
+      this.styleTag = document.querySelector("style[data-aphrodite]") /* : any */ /* : ?HTMLStyleElement */;
 
-var stringHandlers = {
+      // If that doesn't work, generate a new style tag.
+      if (this.styleTag == null) {
+        // Taken from
+        // http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript
+        var head = document.head || document.getElementsByTagName('head')[0];
+        this.styleTag = document.createElement('style');
+        this.styleTag.type = 'text/css';
+        this.styleTag.setAttribute("data-aphrodite", "");
+        head.appendChild(this.styleTag);
+      }
+    }
+
+    // $FlowFixMe
+    var sheet = this.styleTag.styleSheet || this.styleTag.sheet /* : any */ /* : CSSStyleSheet */;
+    if (sheet.insertRule) {
+      var numRules = sheet.cssRules.length;
+      cssRules.forEach(function (rule) {
+        try {
+          sheet.insertRule(rule, numRules);
+          numRules += 1;
+        } catch (e) {
+          // The selector for this rule wasn't compatible with the browser
+        }
+      });
+    } else {
+      this.styleTag.innerText = (this.styleTag.innerText || '') + cssRules.join('');
+    }
+  }
+
+  // Custom handlers for stringifying CSS values that have side effects
+  // (such as fontFamily, which can cause @font-face rules to be injected)
   // With fontFamily we look for objects that are passed in and interpret
   // them as @font-face rules that we need to inject. The value of fontFamily
   // can either be a string (as normal), an object (a single font face), or
   // an array of objects and strings.
-  fontFamily: function fontFamily(val) {
+  ;
+  _proto.fontFamily = function fontFamily(val) {
+    var _this2 = this;
     if (Array.isArray(val)) {
       var nameMap = {};
       val.forEach(function (v) {
-        nameMap[fontFamily(v)] = true;
+        nameMap[_this2.fontFamily(v)] = true;
       });
       return Object.keys(nameMap).join(",");
     } else if (_typeof(val) === "object") {
-      injectStyleOnce(val.src, "@font-face", [val], false);
+      this.injectStyleOnce(val.src, "@font-face", [val], false);
       return "\"".concat(val.fontFamily, "\"");
     } else {
       return val;
     }
-  },
+  }
+
   // With animationName we look for an object that contains keyframes and
   // inject them as an `@keyframes` block, returning a uniquely generated
   // name. The keyframes object should look like
@@ -2104,225 +1984,163 @@ var stringHandlers = {
   // TODO(emily): `stringHandlers` doesn't let us rename the key, so I have
   // to use `animationName` here. Improve that so we can call this
   // `animation` instead of `animationName`.
-  animationName: function animationName(val, selectorHandlers) {
+  ;
+  _proto.animationName = function animationName(val, selectorHandlers) {
+    var _this3 = this;
     if (Array.isArray(val)) {
       return val.map(function (v) {
-        return animationName(v, selectorHandlers);
+        return _this3.animationName(v, selectorHandlers);
       }).join(",");
     } else if (_typeof(val) === "object") {
       // Generate a unique name based on the hash of the object. We can't
       // just use the hash because the name can't start with a number.
       // TODO(emily): this probably makes debugging hard, allow a custom
       // name?
-      var name = "keyframe_".concat(hashObject(val)); // Since keyframes need 3 layers of nesting, we use `generateCSS` to
-      // build the inner layers and wrap it in `@keyframes` ourselves.
+      var name = "keyframe_".concat(hashObject(val));
 
-      var finalVal = "@keyframes ".concat(name, "{"); // TODO see if we can find a way where checking for OrderedElements
+      // Since keyframes need 3 layers of nesting, we use `generateCSS` to
+      // build the inner layers and wrap it in `@keyframes` ourselves.
+      var finalVal = "@keyframes ".concat(name, "{");
+
+      // TODO see if we can find a way where checking for OrderedElements
       // here is not necessary. Alternatively, perhaps we should have a
       // utility method that can iterate over either a plain object, an
       // instance of OrderedElements, or a Map, and then use that here and
       // elsewhere.
-
       if (val instanceof OrderedElements) {
         val.forEach(function (valVal, valKey) {
-          finalVal += generateCSS(valKey, [valVal], selectorHandlers, stringHandlers, false).join('');
+          finalVal += generateCSS(valKey, [valVal], selectorHandlers, _this3.stringHandlers, false).join('');
         });
       } else {
         Object.keys(val).forEach(function (key) {
-          finalVal += generateCSS(key, [val[key]], selectorHandlers, stringHandlers, false).join('');
+          finalVal += generateCSS(key, [val[key]], selectorHandlers, _this3.stringHandlers, false).join('');
         });
       }
-
       finalVal += '}';
-      injectGeneratedCSSOnce(name, [finalVal]);
+      this.injectGeneratedCSSOnce(name, [finalVal]);
       return name;
     } else {
       return val;
     }
-  }
-}; // This is a map from Aphrodite's generated class names to `true` (acting as a
-// set of class names)
+  };
+  _proto.injectGeneratedCSSOnce = function injectGeneratedCSSOnce(key, generatedCSS) {
+    var _this$injectionBuffer;
+    if (this.alreadyInjected[key]) {
+      return;
+    }
+    if (!this.isBuffering) {
+      // We should never be automatically buffering on the server (or any
+      // place without a document), so guard against that.
+      if (typeof document === "undefined") {
+        throw new Error("Cannot automatically buffer without a document");
+      }
 
-var alreadyInjected = {}; // This is the buffer of styles which have not yet been flushed.
-
-var injectionBuffer
-/* : string[] */
-= []; // A flag to tell if we are already buffering styles. This could happen either
-// because we scheduled a flush call already, so newly added styles will
-// already be flushed, or because we are statically buffering on the server.
-
-var isBuffering = false;
-
-var injectGeneratedCSSOnce = function injectGeneratedCSSOnce(key, generatedCSS) {
-  var _injectionBuffer;
-
-  if (alreadyInjected[key]) {
-    return;
-  }
-
-  if (!isBuffering) {
-    // We should never be automatically buffering on the server (or any
-    // place without a document), so guard against that.
-    if (typeof document === "undefined") {
-      throw new Error("Cannot automatically buffer without a document");
-    } // If we're not already buffering, schedule a call to flush the
-    // current styles.
-
-
-    isBuffering = true;
-    browserAsap(flushToStyleTag);
-  }
-
-  (_injectionBuffer = injectionBuffer).push.apply(_injectionBuffer, _toConsumableArray(generatedCSS));
-
-  alreadyInjected[key] = true;
-};
-
-var injectStyleOnce = function injectStyleOnce(key
-/* : string */
-, selector
-/* : string */
-, definitions
-/* : SheetDefinition[] */
-, useImportant
-/* : boolean */
-) {
-  var selectorHandlers
-  /* : SelectorHandler[] */
-  = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
-
-  if (alreadyInjected[key]) {
-    return;
-  }
-
-  var generated = generateCSS(selector, definitions, selectorHandlers, stringHandlers, useImportant);
-  injectGeneratedCSSOnce(key, generated);
-};
-var reset = function reset() {
-  injectionBuffer = [];
-  alreadyInjected = {};
-  isBuffering = false;
-  styleTag = null;
-};
-var resetInjectedStyle = function resetInjectedStyle(key
-/* : string */
-) {
-  delete alreadyInjected[key];
-};
-var startBuffering = function startBuffering() {
-  if (isBuffering) {
-    throw new Error("Cannot buffer while already buffering");
-  }
-
-  isBuffering = true;
-};
-
-var flushToArray = function flushToArray() {
-  isBuffering = false;
-  var ret = injectionBuffer;
-  injectionBuffer = [];
-  return ret;
-};
-
-var flushToString = function flushToString() {
-  return flushToArray().join('');
-};
-var flushToStyleTag = function flushToStyleTag() {
-  var cssRules = flushToArray();
-
-  if (cssRules.length > 0) {
-    injectStyleTag(cssRules);
-  }
-};
-var getRenderedClassNames = function getRenderedClassNames()
-/* : string[] */
-{
-  return Object.keys(alreadyInjected);
-};
-var addRenderedClassNames = function addRenderedClassNames(classNames
-/* : string[] */
-) {
-  classNames.forEach(function (className) {
-    alreadyInjected[className] = true;
-  });
-};
-
-var isValidStyleDefinition = function isValidStyleDefinition(def
-/* : Object */
-) {
-  return "_definition" in def && "_name" in def && "_len" in def;
-};
-
-var processStyleDefinitions = function processStyleDefinitions(styleDefinitions
-/* : any[] */
-, classNameBits
-/* : string[] */
-, definitionBits
-/* : Object[] */
-, length
-/* : number */
-)
-/* : number */
-{
-  for (var i = 0; i < styleDefinitions.length; i += 1) {
-    // Filter out falsy values from the input, to allow for
-    // `css(a, test && c)`
-    if (styleDefinitions[i]) {
-      if (Array.isArray(styleDefinitions[i])) {
-        // We've encountered an array, so let's recurse
-        length += processStyleDefinitions(styleDefinitions[i], classNameBits, definitionBits, length);
-      } else if (isValidStyleDefinition(styleDefinitions[i])) {
-        classNameBits.push(styleDefinitions[i]._name);
-        definitionBits.push(styleDefinitions[i]._definition);
-        length += styleDefinitions[i]._len;
-      } else {
-        throw new Error("Invalid Style Definition: Styles should be defined using the StyleSheet.create method.");
+      // If we're not already buffering, schedule a call to flush the
+      // current styles.
+      this.isBuffering = true;
+      browserAsap(this.flushToStyleTag);
+    }
+    (_this$injectionBuffer = this.injectionBuffer).push.apply(_this$injectionBuffer, _toConsumableArray(generatedCSS));
+    this.alreadyInjected[key] = true;
+  };
+  _proto.injectStyleOnce = function injectStyleOnce(key /* : string */, selector /* : string */, definitions /* : SheetDefinition[] */, useImportant /* : boolean */) {
+    var selectorHandlers /* : SelectorHandler[] */ = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
+    if (this.alreadyInjected[key]) {
+      return;
+    }
+    var generated = generateCSS(selector, definitions, selectorHandlers, this.stringHandlers, useImportant);
+    this.injectGeneratedCSSOnce(key, generated);
+  };
+  _proto.reset = function reset() {
+    this.injectionBuffer = [];
+    this.alreadyInjected = {};
+    this.isBuffering = false;
+    this.styleTag = null;
+  };
+  _proto.resetInjectedStyle = function resetInjectedStyle(key /* : string */) {
+    delete this.alreadyInjected[key];
+  };
+  _proto.getBufferedStyles = function getBufferedStyles() {
+    return this.injectionBuffer;
+  };
+  _proto.startBuffering = function startBuffering() {
+    if (this.isBuffering) {
+      throw new Error("Cannot buffer while already buffering");
+    }
+    this.isBuffering = true;
+  };
+  _proto.flushToArray = function flushToArray() {
+    this.isBuffering = false;
+    var ret = this.injectionBuffer;
+    this.injectionBuffer = [];
+    return ret;
+  };
+  _proto.flushToString = function flushToString() {
+    return this.flushToArray().join('');
+  };
+  _proto.getRenderedClassNames = function getRenderedClassNames() /* : string[] */{
+    return Object.keys(this.alreadyInjected);
+  };
+  _proto.addRenderedClassNames = function addRenderedClassNames(classNames /* : string[] */) {
+    var _this4 = this;
+    classNames.forEach(function (className) {
+      _this4.alreadyInjected[className] = true;
+    });
+  };
+  _proto.isValidStyleDefinition = function isValidStyleDefinition(def /* : Object */) {
+    return "_definition" in def && "_name" in def && "_len" in def;
+  };
+  _proto.processStyleDefinitions = function processStyleDefinitions(styleDefinitions /* : any[] */, classNameBits /* : string[] */, definitionBits /* : Object[] */, length /* : number */) /* : number */{
+    for (var i = 0; i < styleDefinitions.length; i += 1) {
+      // Filter out falsy values from the input, to allow for
+      // `css(a, test && c)`
+      if (styleDefinitions[i]) {
+        if (Array.isArray(styleDefinitions[i])) {
+          // We've encountered an array, so let's recurse
+          length += this.processStyleDefinitions(styleDefinitions[i], classNameBits, definitionBits, length);
+        } else if (this.isValidStyleDefinition(styleDefinitions[i])) {
+          classNameBits.push(styleDefinitions[i]._name);
+          definitionBits.push(styleDefinitions[i]._definition);
+          length += styleDefinitions[i]._len;
+        } else {
+          throw new Error("Invalid Style Definition: Styles should be defined using the StyleSheet.create method.");
+        }
       }
     }
+    return length;
   }
 
-  return length;
-};
-/**
- * Inject styles associated with the passed style definition objects, and return
- * an associated CSS class name.
- *
- * @param {boolean} useImportant If true, will append !important to generated
- *     CSS output. e.g. {color: red} -> "color: red !important".
- * @param {(Object|Object[])[]} styleDefinitions style definition objects, or
- *     arbitrarily nested arrays of them, as returned as properties of the
- *     return value of StyleSheet.create().
- */
+  /**
+   * Inject styles associated with the passed style definition objects, and return
+   * an associated CSS class name.
+   *
+   * @param {boolean} useImportant If true, will append !important to generated
+   *     CSS output. e.g. {color: red} -> "color: red !important".
+   * @param {(Object|Object[])[]} styleDefinitions style definition objects, or
+   *     arbitrarily nested arrays of them, as returned as properties of the
+   *     return value of StyleSheet.create().
+   */;
+  _proto.injectAndGetClassName = function injectAndGetClassName(useImportant /* : boolean */, styleDefinitions /* : MaybeSheetDefinition[] */, selectorHandlers /* : SelectorHandler[] */) /* : string */{
+    var classNameBits = [];
+    var definitionBits = [];
 
+    // Mutates classNameBits and definitionBits and returns a length which we
+    // will append to the hash to decrease the chance of hash collisions.
+    var length = this.processStyleDefinitions(styleDefinitions, classNameBits, definitionBits, 0);
 
-var injectAndGetClassName = function injectAndGetClassName(useImportant
-/* : boolean */
-, styleDefinitions
-/* : MaybeSheetDefinition[] */
-, selectorHandlers
-/* : SelectorHandler[] */
-)
-/* : string */
-{
-  var classNameBits = [];
-  var definitionBits = []; // Mutates classNameBits and definitionBits and returns a length which we
-  // will append to the hash to decrease the chance of hash collisions.
-
-  var length = processStyleDefinitions(styleDefinitions, classNameBits, definitionBits, 0); // Break if there aren't any valid styles.
-
-  if (classNameBits.length === 0) {
-    return "";
-  }
-
-  var className;
-
-  {
-    className = classNameBits.length === 1 ? "_".concat(classNameBits[0]) : "_".concat(hashString(classNameBits.join())).concat((length % 36).toString(36));
-  }
-
-  injectStyleOnce(className, ".".concat(className), definitionBits, useImportant, selectorHandlers);
-  return className;
-};
+    // Break if there aren't any valid styles.
+    if (classNameBits.length === 0) {
+      return "";
+    }
+    var className;
+    {
+      className = classNameBits.length === 1 ? "_".concat(classNameBits[0]) : "_".concat(hashString(classNameBits.join())).concat((length % 36).toString(36));
+    }
+    this.injectStyleOnce(className, ".".concat(className), definitionBits, useImportant, selectorHandlers);
+    return className;
+  };
+  return Inject;
+}();
 
 /* ::
 import type { SelectorHandler } from './generate.js';
@@ -2335,52 +2153,67 @@ type Extension = {
 export type MaybeSheetDefinition = SheetDefinition | false | null | void
 */
 
-var unminifiedHashFn = function unminifiedHashFn(str
-/* : string */
-, key
-/* : string */
-) {
+var unminifiedHashFn = function unminifiedHashFn(str /* : string */, key /* : string */) {
   return "".concat(key, "_").concat(hashString(str));
-}; // StyleSheet.create is in a hot path so we want to keep as much logic out of it
+};
+
+// StyleSheet.create is in a hot path so we want to keep as much logic out of it
 // as possible. So, we figure out which hash function to use once, and only
 // switch it out via minify() as necessary.
 //
 // This is in an exported function to make it easier to test.
-
-
 var initialHashFn = function initialHashFn() {
-  return hashString;
+  return  hashString ;
 };
-var hashFn = initialHashFn();
-var StyleSheet = {
-  create: function create(sheetDefinition
-  /* : SheetDefinition */
-  )
-  /* : Object */
-  {
+var StyleSheet = /*#__PURE__*/function () {
+  /**
+   * 
+   * @param {Inject} inject 
+   * @param {*} useImportant 
+   * @param {*} selectorHandlers 
+   */
+  function StyleSheet(inject, useImportant) {
+    var selectorHandlers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : defaultSelectorHandlers;
+    this.inject = inject;
+    this.useImportant = useImportant;
+    this.selectorHandlers = selectorHandlers;
+    this.hashFn = initialHashFn();
+  }
+  var _proto = StyleSheet.prototype;
+  _proto.minify = function minify(shouldMinify /* : boolean */) {
+    this.hashFn = shouldMinify ? hashString : unminifiedHashFn;
+  };
+  _proto.create = function create(sheetDefinition /* : SheetDefinition */) /* : Object */{
     var mappedSheetDefinition = {};
     var keys = Object.keys(sheetDefinition);
-
     for (var i = 0; i < keys.length; i += 1) {
       var key = keys[i];
       var val = sheetDefinition[key];
       var stringVal = JSON.stringify(val);
       mappedSheetDefinition[key] = {
         _len: stringVal.length,
-        _name: hashFn(stringVal, key),
+        _name: this.hashFn(stringVal, key),
         _definition: val
       };
     }
-
     return mappedSheetDefinition;
-  },
-  rehydrate: function rehydrate() {
-    var renderedClassNames
-    /* : string[] */
-    = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    addRenderedClassNames(renderedClassNames);
-  }
-};
+  };
+  _proto.rehydrate = function rehydrate() {
+    var renderedClassNames /* : string[] */ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    this.inject.addRenderedClassNames(renderedClassNames);
+  };
+  _proto.css = function css() {
+    for (var _len = arguments.length, styleDefinitions = new Array(_len), _key = 0; _key < _len; _key++) {
+      styleDefinitions[_key] = arguments[_key];
+    }
+    return this.inject.injectAndGetClassName(this.useImportant, styleDefinitions, this.selectorHandlers);
+  };
+  _proto.extend = function extend(extensions) {
+    throw new Error('not implemented');
+  };
+  return StyleSheet;
+}();
+
 /**
  * Utilities for using Aphrodite server-side.
  *
@@ -2391,94 +2224,136 @@ var StyleSheet = {
  *     "typeof window": JSON.stringify("object")
  *   })
  */
-
-var StyleSheetServer = typeof window !== 'undefined' ? null : {
-  renderStatic: function renderStatic(renderFunc
-  /* : RenderFunction */
-  ) {
-    reset();
-    startBuffering();
-    var html = renderFunc();
-    var cssContent = flushToString();
-    return {
-      html: html,
-      css: {
-        content: cssContent,
-        renderedClassNames: getRenderedClassNames()
-      }
+var StyleSheetServer = /*#__PURE__*/function () {
+  /**
+   * 
+   * @param {Inject} inject 
+   */
+  function StyleSheetServer(inject) {
+    var _this = this;
+    this.inject = inject;
+    this.processHtml = function (html) {
+      var cssContent = _this.inject.flushToString();
+      return {
+        html: html,
+        css: {
+          content: cssContent,
+          renderedClassNames: _this.inject.getRenderedClassNames()
+        }
+      };
     };
   }
-};
+  var _proto2 = StyleSheetServer.prototype;
+  _proto2.renderStatic = function renderStatic(renderFunc /* : RenderFunction */) {
+    this.inject.reset();
+    this.inject.startBuffering();
+    return this.processHtml(renderFunc());
+  };
+  _proto2.renderStaticAsync = function renderStaticAsync(renderFunc /* : RenderFunction */) {
+    this.inject.reset();
+    this.inject.startBuffering();
+    return renderFunc().then(this.processHtml);
+  };
+  return StyleSheetServer;
+}();
+
 /**
  * Utilities for using Aphrodite in tests.
  *
  * Not meant to be used in production.
  */
+var StyleSheetTestUtils = /*#__PURE__*/function () {
+  /**
+   * 
+   * @param {Inject} inject 
+   */
+  function StyleSheetTestUtils(inject) {
+    this.inject = inject;
+  }
+  /**
+  * Prevent styles from being injected into the DOM.
+  *
+  * This is useful in situations where you'd like to test rendering UI
+  * components which use Aphrodite without any of the side-effects of
+  * Aphrodite happening. Particularly useful for testing the output of
+  * components when you have no DOM, e.g. testing in Node without a fake DOM.
+  *
+  * Should be paired with a subsequent call to
+  * clearBufferAndResumeStyleInjection.
+  */
+  var _proto3 = StyleSheetTestUtils.prototype;
+  _proto3.suppressStyleInjection = function suppressStyleInjection() {
+    this.inject.reset();
+    this.inject.startBuffering();
+  }
 
-var StyleSheetTestUtils = null;
-/**
- * Generate the Aphrodite API exports, with given `selectorHandlers` and
- * `useImportant` state.
- */
+  /**
+  * Opposite method of preventStyleInject.
+  */;
+  _proto3.clearBufferAndResumeStyleInjection = function clearBufferAndResumeStyleInjection() {
+    this.inject.reset();
+  }
 
-function makeExports(useImportant
-/* : boolean */
-) {
-  var selectorHandlers
-  /* : SelectorHandler[] */
-  = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultSelectorHandlers;
+  /**
+  * Returns a string of buffered styles which have not been flushed
+  *
+  * @returns {string[]}  Buffer of styles which have not yet been flushed.
+  */;
+  _proto3.getBufferedStyles = function getBufferedStyles() {
+    return this.inject.getBufferedStyles();
+  };
+  return StyleSheetTestUtils;
+}();
+function makeExports(useImportant) {
+  var selectorHandlers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultSelectorHandlers;
+  var inject = new Inject();
+  var StyleSheetWithExtend = /*#__PURE__*/function (_StyleSheet) {
+    function StyleSheetWithExtend() {
+      return _StyleSheet.apply(this, arguments) || this;
+    }
+    _inheritsLoose(StyleSheetWithExtend, _StyleSheet);
+    var _proto4 = StyleSheetWithExtend.prototype;
+    /**
+    * Returns a version of the exports of Aphrodite (i.e. an object
+    * with `css` and `StyleSheet` properties) which have some
+    * extensions included.
+    *
+    * @param {Array.<Object>} extensions: An array of extensions to
+    *     add to this instance of Aphrodite. Each object should have a
+    *     single property on it, defining which kind of extension to
+    *     add.
+    * @param {SelectorHandler} [extensions[].selectorHandler]: A
+    *     selector handler extension. See `defaultSelectorHandlers` in
+    *     generate.js.
+    *
+    * @returns {Object} An object containing the exports of the new
+    *     instance of Aphrodite.
+    */
+    _proto4.extend = function extend(extensions /* : Extension[] */) {
+      var extensionSelectorHandlers = extensions
+      // Pull out extensions with a selectorHandler property
+      .map(function (extension) {
+        return extension.selectorHandler;
+      })
+      // Remove nulls (i.e. extensions without a selectorHandler property).
+      .filter(function (handler) {
+        return handler;
+      });
+      return makeExports(useImportant, selectorHandlers.concat(extensionSelectorHandlers));
+    };
+    return StyleSheetWithExtend;
+  }(StyleSheet);
+  var styleSheet = new StyleSheetWithExtend(inject, useImportant, selectorHandlers);
   return {
-    StyleSheet: _objectSpread({}, StyleSheet, {
-      /**
-       * Returns a version of the exports of Aphrodite (i.e. an object
-       * with `css` and `StyleSheet` properties) which have some
-       * extensions included.
-       *
-       * @param {Array.<Object>} extensions: An array of extensions to
-       *     add to this instance of Aphrodite. Each object should have a
-       *     single property on it, defining which kind of extension to
-       *     add.
-       * @param {SelectorHandler} [extensions[].selectorHandler]: A
-       *     selector handler extension. See `defaultSelectorHandlers` in
-       *     generate.js.
-       *
-       * @returns {Object} An object containing the exports of the new
-       *     instance of Aphrodite.
-       */
-      extend: function extend(extensions
-      /* : Extension[] */
-      ) {
-        var extensionSelectorHandlers = extensions // Pull out extensions with a selectorHandler property
-        .map(function (extension) {
-          return extension.selectorHandler;
-        }) // Remove nulls (i.e. extensions without a selectorHandler property).
-        .filter(function (handler) {
-          return handler;
-        });
-        return makeExports(useImportant, selectorHandlers.concat(extensionSelectorHandlers));
-      }
-    }),
-    StyleSheetServer: StyleSheetServer,
-    StyleSheetTestUtils: StyleSheetTestUtils,
-    minify: function minify(shouldMinify
-    /* : boolean */
-    ) {
-      hashFn = shouldMinify ? hashString : unminifiedHashFn;
-    },
-    css: function css()
-    /* : MaybeSheetDefinition[] */
-    {
-      for (var _len = arguments.length, styleDefinitions = new Array(_len), _key = 0; _key < _len; _key++) {
-        styleDefinitions[_key] = arguments[_key];
-      }
-
-      return injectAndGetClassName(useImportant, styleDefinitions, selectorHandlers);
-    },
-    flushToStyleTag: flushToStyleTag,
-    injectAndGetClassName: injectAndGetClassName,
-    defaultSelectorHandlers: defaultSelectorHandlers,
-    reset: reset,
-    resetInjectedStyle: resetInjectedStyle
+    StyleSheet: styleSheet,
+    StyleSheetServer: new StyleSheetServer(inject),
+    StyleSheetTestUtils: new StyleSheetTestUtils(inject),
+    css: styleSheet.css.bind(styleSheet),
+    minify: styleSheet.minify.bind(styleSheet),
+    injectAndGetClassName: inject.injectAndGetClassName.bind(inject),
+    flushToStyleTag: inject.flushToStyleTag.bind(inject),
+    reset: inject.reset.bind(inject),
+    resetInjectedStyle: inject.resetInjectedStyle.bind(inject)
   };
 }
 
@@ -2486,23 +2361,23 @@ var useImportant = true; // Add !important to all style definitions
 
 var Aphrodite = makeExports(useImportant);
 var StyleSheet$1 = Aphrodite.StyleSheet,
-    StyleSheetServer$1 = Aphrodite.StyleSheetServer,
-    StyleSheetTestUtils$1 = Aphrodite.StyleSheetTestUtils,
-    css = Aphrodite.css,
-    minify = Aphrodite.minify,
-    flushToStyleTag$1 = Aphrodite.flushToStyleTag,
-    injectAndGetClassName$1 = Aphrodite.injectAndGetClassName,
-    defaultSelectorHandlers$1 = Aphrodite.defaultSelectorHandlers,
-    reset$1 = Aphrodite.reset,
-    resetInjectedStyle$1 = Aphrodite.resetInjectedStyle;
+  StyleSheetServer$1 = Aphrodite.StyleSheetServer,
+  StyleSheetTestUtils$1 = Aphrodite.StyleSheetTestUtils,
+  css = Aphrodite.css,
+  minify = Aphrodite.minify,
+  flushToStyleTag = Aphrodite.flushToStyleTag,
+  injectAndGetClassName = Aphrodite.injectAndGetClassName,
+  defaultSelectorHandlers$1 = Aphrodite.defaultSelectorHandlers,
+  reset = Aphrodite.reset,
+  resetInjectedStyle = Aphrodite.resetInjectedStyle;
 
 exports.StyleSheet = StyleSheet$1;
 exports.StyleSheetServer = StyleSheetServer$1;
 exports.StyleSheetTestUtils = StyleSheetTestUtils$1;
 exports.css = css;
-exports.minify = minify;
-exports.flushToStyleTag = flushToStyleTag$1;
-exports.injectAndGetClassName = injectAndGetClassName$1;
 exports.defaultSelectorHandlers = defaultSelectorHandlers$1;
-exports.reset = reset$1;
-exports.resetInjectedStyle = resetInjectedStyle$1;
+exports.flushToStyleTag = flushToStyleTag;
+exports.injectAndGetClassName = injectAndGetClassName;
+exports.minify = minify;
+exports.reset = reset;
+exports.resetInjectedStyle = resetInjectedStyle;
