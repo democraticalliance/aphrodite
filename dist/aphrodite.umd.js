@@ -2,23 +2,54 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.aphrodite = {}));
-}(this, function (exports) { 'use strict';
+}(this, (function (exports) { 'use strict';
 
-  function _typeof(obj) {
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
+  function ownKeys(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      })), t.push.apply(t, o);
     }
-
-    return _typeof(obj);
+    return t;
   }
+  function _objectSpread2(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+        _defineProperty(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+        Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+      });
+    }
+    return e;
+  }
+  function _toPrimitive(t, r) {
+    if ("object" != typeof t || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+      var i = e.call(t, r || "default");
+      if ("object" != typeof i) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+  }
+  function _toPropertyKey(t) {
+    var i = _toPrimitive(t, "string");
+    return "symbol" == typeof i ? i : i + "";
+  }
+  function _typeof(o) {
+    "@babel/helpers - typeof";
 
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof(o);
+  }
   function _defineProperty(obj, key, value) {
+    key = _toPropertyKey(key);
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -29,47 +60,32 @@
     } else {
       obj[key] = value;
     }
-
     return obj;
   }
-
-  function _objectSpread(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-      var ownKeys = Object.keys(source);
-
-      if (typeof Object.getOwnPropertySymbols === 'function') {
-        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }));
-      }
-
-      ownKeys.forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    }
-
-    return target;
-  }
-
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
-
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
-
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
   }
-
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+    return arr2;
+  }
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   function hash(str) {
@@ -89,39 +105,27 @@
   var stringHash = hash;
 
   /* @flow */
+
   /* ::
   type ObjectMap = { [id:string]: any };
   */
 
   var UPPERCASE_RE = /([A-Z])/g;
-
-  var UPPERCASE_RE_TO_KEBAB = function UPPERCASE_RE_TO_KEBAB(match
-  /* : string */
-  ) {
-    return (
-      /* : string */
-      "-".concat(match.toLowerCase())
-    );
-  };
-
-  var kebabifyStyleName = function kebabifyStyleName(string
-  /* : string */
-  )
-  /* : string */
-  {
+  var UPPERCASE_RE_TO_KEBAB = function UPPERCASE_RE_TO_KEBAB(match /* : string */) {
+    return "-".concat(match.toLowerCase());
+  } /* : string */;
+  var kebabifyStyleName = function kebabifyStyleName(string /* : string */) {
     var result = string.replace(UPPERCASE_RE, UPPERCASE_RE_TO_KEBAB);
-
     if (result[0] === 'm' && result[1] === 's' && result[2] === '-') {
       return "-".concat(result);
     }
-
     return result;
-  };
+  } /* : string */;
+
   /**
    * CSS properties which accept numbers but are not in units of "px".
    * Taken from React's CSSProperty.js
    */
-
   var isUnitlessNumber = {
     animationIterationCount: true,
     borderImageOutset: true,
@@ -159,6 +163,7 @@
     strokeOpacity: true,
     strokeWidth: true
   };
+
   /**
    * Taken from React's CSSProperty.js
    *
@@ -167,33 +172,26 @@
    * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
    * WebkitTransitionDuration
    */
-
   function prefixKey(prefix, key) {
     return prefix + key.charAt(0).toUpperCase() + key.substring(1);
   }
+
   /**
    * Support style names that may come passed in prefixed by adding permutations
    * of vendor prefixes.
    * Taken from React's CSSProperty.js
    */
+  var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
 
-
-  var prefixes = ['Webkit', 'ms', 'Moz', 'O']; // Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
+  // Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
   // infinite loop, because it iterates over the newly added props too.
   // Taken from React's CSSProperty.js
-
   Object.keys(isUnitlessNumber).forEach(function (prop) {
     prefixes.forEach(function (prefix) {
       isUnitlessNumber[prefixKey(prefix, prop)] = isUnitlessNumber[prop];
     });
   });
-  var stringifyValue = function stringifyValue(key
-  /* : string */
-  , prop
-  /* : any */
-  )
-  /* : string */
-  {
+  var stringifyValue = function stringifyValue(key /* : string */, prop /* : any */) {
     if (typeof prop === "number") {
       if (isUnitlessNumber[key]) {
         return "" + prop;
@@ -203,29 +201,18 @@
     } else {
       return '' + prop;
     }
-  };
-  var stringifyAndImportantifyValue = function stringifyAndImportantifyValue(key
-  /* : string */
-  , prop
-  /* : any */
-  ) {
-    return (
-      /* : string */
-      importantify(stringifyValue(key, prop))
-    );
-  }; // Turn a string into a hash string of base-36 values (using letters and numbers)
-  // eslint-disable-next-line no-unused-vars
+  } /* : string */;
+  var stringifyAndImportantifyValue = function stringifyAndImportantifyValue(key /* : string */, prop /* : any */) {
+    return importantify(stringifyValue(key, prop));
+  } /* : string */;
 
-  var hashString = function hashString(string
-  /* : string */
-  , key
-  /* : ?string */
-  ) {
-    return (
-      /* string */
-      stringHash(string).toString(36)
-    );
-  }; // Hash a javascript object using JSON.stringify. This is very fast, about 3
+  // Turn a string into a hash string of base-36 values (using letters and numbers)
+  // eslint-disable-next-line no-unused-vars
+  var hashString = function hashString(string /* : string */, key /* : ?string */) {
+    return stringHash(string).toString(36);
+  } /* string */;
+
+  // Hash a javascript object using JSON.stringify. This is very fast, about 3
   // microseconds on my computer for a sample object:
   // http://jsperf.com/test-hashfnv32a-hash/5
   //
@@ -233,22 +220,14 @@
   // this to produce consistent hashes browsers need to have a consistent
   // ordering of objects. Ben Alpert says that Facebook depends on this, so we
   // can probably depend on this too.
+  var hashObject = function hashObject(object /* : ObjectMap */) {
+    return hashString(JSON.stringify(object));
+  } /* : string */;
 
-  var hashObject = function hashObject(object
-  /* : ObjectMap */
-  ) {
-    return (
-      /* : string */
-      hashString(JSON.stringify(object))
-    );
-  }; // Given a single style value string like the "b" from "a: b;", adds !important
+  // Given a single style value string like the "b" from "a: b;", adds !important
   // to generate "b !important".
-
-  var importantify = function importantify(string
-  /* : string */
-  ) {
+  var importantify = function importantify(string /* : string */) {
     return (
-      /* : string */
       // Bracket string character access is very fast, and in the default case we
       // normally don't expect there to be "!important" at the end of the string
       // so we can use this simple check to take an optimized path. If there
@@ -256,12 +235,12 @@
       // check.
       string[string.length - 10] === '!' && string.slice(-11) === ' !important' ? string : "".concat(string, " !important")
     );
-  };
+  } /* : string */;
 
-  var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function unwrapExports (x) {
-  	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+  	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
   }
 
   function createCommonjsModule(fn, module) {
@@ -545,37 +524,24 @@
 
   /* @flow */
   var MAP_EXISTS = typeof Map !== 'undefined';
-
-  var OrderedElements =
-  /*#__PURE__*/
-  function () {
+  var OrderedElements = /*#__PURE__*/function () {
     /* ::
     elements: {[string]: any};
     keyOrder: string[];
     */
+
     function OrderedElements() {
       this.elements = {};
       this.keyOrder = [];
     }
-
     var _proto = OrderedElements.prototype;
-
-    _proto.forEach = function forEach(callback
-    /* : (string, any) => void */
-    ) {
+    _proto.forEach = function forEach(callback /* : (string, any) => void */) {
       for (var i = 0; i < this.keyOrder.length; i++) {
         // (value, key) to match Map's API
         callback(this.elements[this.keyOrder[i]], this.keyOrder[i]);
       }
     };
-
-    _proto.set = function set(key
-    /* : string */
-    , value
-    /* : any */
-    , shouldReorder
-    /* : ?boolean */
-    ) {
+    _proto.set = function set(key /* : string */, value /* : any */, shouldReorder /* : ?boolean */) {
       if (!this.elements.hasOwnProperty(key)) {
         this.keyOrder.push(key);
       } else if (shouldReorder) {
@@ -583,12 +549,10 @@
         this.keyOrder.splice(index, 1);
         this.keyOrder.push(key);
       }
-
       if (value == null) {
         this.elements[key] = value;
         return;
       }
-
       if (MAP_EXISTS && value instanceof Map || value instanceof OrderedElements) {
         // We have found a nested Map, so we need to recurse so that all
         // of the nested objects and Maps are merged properly.
@@ -599,61 +563,38 @@
         this.elements[key] = nested;
         return;
       }
-
       if (!Array.isArray(value) && _typeof(value) === 'object') {
         // We have found a nested object, so we need to recurse so that all
         // of the nested objects and Maps are merged properly.
         var _nested = this.elements.hasOwnProperty(key) ? this.elements[key] : new OrderedElements();
-
         var keys = Object.keys(value);
-
         for (var i = 0; i < keys.length; i += 1) {
           _nested.set(keys[i], value[keys[i]], shouldReorder);
         }
-
         this.elements[key] = _nested;
         return;
       }
-
       this.elements[key] = value;
     };
-
-    _proto.get = function get(key
-    /* : string */
-    )
-    /* : any */
-    {
+    _proto.get = function get(key /* : string */) /* : any */{
       return this.elements[key];
     };
-
-    _proto.has = function has(key
-    /* : string */
-    )
-    /* : boolean */
-    {
+    _proto.has = function has(key /* : string */) /* : boolean */{
       return this.elements.hasOwnProperty(key);
     };
-
-    _proto.addStyleType = function addStyleType(styleType
-    /* : any */
-    )
-    /* : void */
-    {
+    _proto.addStyleType = function addStyleType(styleType /* : any */) /* : void */{
       var _this = this;
-
       if (MAP_EXISTS && styleType instanceof Map || styleType instanceof OrderedElements) {
         styleType.forEach(function (value, key) {
           _this.set(key, value, true);
         });
       } else {
         var keys = Object.keys(styleType);
-
         for (var i = 0; i < keys.length; i++) {
           this.set(keys[i], styleType[keys[i]], true);
         }
       }
     };
-
     return OrderedElements;
   }();
 
@@ -1154,6 +1095,10 @@
     return typeof value === 'number' && !isNaN(value);
   }
 
+  function isComplexSpanValue(value) {
+    return typeof value === 'string' && value.includes('/');
+  }
+
   var alignmentValues = ['center', 'end', 'start', 'stretch'];
 
   var displayValues = {
@@ -1171,16 +1116,26 @@
     gridColumn: function gridColumn(value, style) {
       if (isSimplePositionValue(value)) {
         style.msGridColumn = value;
-      } else {
-        var _value$split$map = value.split('/').map(function (position) {
-          return +position;
-        }),
-            _value$split$map2 = _slicedToArray(_value$split$map, 2),
-            start = _value$split$map2[0],
-            end = _value$split$map2[1];
+      } else if (isComplexSpanValue(value)) {
+        var _value$split = value.split('/'),
+            _value$split2 = _slicedToArray(_value$split, 2),
+            start = _value$split2[0],
+            end = _value$split2[1];
 
-        propertyConverters.gridColumnStart(start, style);
-        propertyConverters.gridColumnEnd(end, style);
+        propertyConverters.gridColumnStart(+start, style);
+
+        var _end$split = end.split(/ ?span /),
+            _end$split2 = _slicedToArray(_end$split, 2),
+            maybeSpan = _end$split2[0],
+            maybeNumber = _end$split2[1];
+
+        if (maybeSpan === '') {
+          propertyConverters.gridColumnEnd(+start + +maybeNumber, style);
+        } else {
+          propertyConverters.gridColumnEnd(+end, style);
+        }
+      } else {
+        propertyConverters.gridColumnStart(value, style);
       }
     },
 
@@ -1201,16 +1156,26 @@
     gridRow: function gridRow(value, style) {
       if (isSimplePositionValue(value)) {
         style.msGridRow = value;
-      } else {
-        var _value$split$map3 = value.split('/').map(function (position) {
-          return +position;
-        }),
-            _value$split$map4 = _slicedToArray(_value$split$map3, 2),
-            start = _value$split$map4[0],
-            end = _value$split$map4[1];
+      } else if (isComplexSpanValue(value)) {
+        var _value$split3 = value.split('/'),
+            _value$split4 = _slicedToArray(_value$split3, 2),
+            start = _value$split4[0],
+            end = _value$split4[1];
 
-        propertyConverters.gridRowStart(start, style);
-        propertyConverters.gridRowEnd(end, style);
+        propertyConverters.gridRowStart(+start, style);
+
+        var _end$split3 = end.split(/ ?span /),
+            _end$split4 = _slicedToArray(_end$split3, 2),
+            maybeSpan = _end$split4[0],
+            maybeNumber = _end$split4[1];
+
+        if (maybeSpan === '') {
+          propertyConverters.gridRowEnd(+start + +maybeNumber, style);
+        } else {
+          propertyConverters.gridRowEnd(+end, style);
+        }
+      } else {
+        propertyConverters.gridRowStart(value, style);
       }
     },
 
@@ -1379,23 +1344,20 @@
 
   var sizing = unwrapExports(sizing_1);
 
-  /* eslint-disable no-var, prefer-template */
   var uppercasePattern = /[A-Z]/g;
   var msPattern = /^ms-/;
   var cache = {};
 
-  function toHyphenLower(match) {
-    return '-' + match.toLowerCase()
+  function hyphenateStyleName(string) {
+      return string in cache
+      ? cache[string]
+      : cache[string] = string
+        .replace(uppercasePattern, '-$&')
+        .toLowerCase()
+        .replace(msPattern, '-ms-');
   }
 
-  function hyphenateStyleName(name) {
-    if (cache.hasOwnProperty(name)) {
-      return cache[name]
-    }
-
-    var hName = name.replace(uppercasePattern, toHyphenLower);
-    return (cache[name] = msPattern.test(hName) ? '-' + hName : hName)
-  }
+  var hyphenateStyleName_1 = hyphenateStyleName;
 
   var hyphenateProperty_1 = createCommonjsModule(function (module, exports) {
 
@@ -1406,7 +1368,7 @@
 
 
 
-  var _hyphenateStyleName2 = _interopRequireDefault(hyphenateStyleName);
+  var _hyphenateStyleName2 = _interopRequireDefault(hyphenateStyleName_1);
 
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1541,32 +1503,32 @@
       "animationName": w,
       "animationPlayState": w,
       "animationTimingFunction": w,
-      "appearance": wm,
+      "appearance": wmms,
       "userSelect": wmms,
       "fontKerning": w,
-      "textEmphasisPosition": w,
-      "textEmphasis": w,
-      "textEmphasisStyle": w,
-      "textEmphasisColor": w,
-      "boxDecorationBreak": w,
+      "textEmphasisPosition": wms,
+      "textEmphasis": wms,
+      "textEmphasisStyle": wms,
+      "textEmphasisColor": wms,
+      "boxDecorationBreak": wms,
       "clipPath": w,
-      "maskImage": w,
-      "maskMode": w,
-      "maskRepeat": w,
-      "maskPosition": w,
-      "maskClip": w,
-      "maskOrigin": w,
-      "maskSize": w,
-      "maskComposite": w,
-      "mask": w,
-      "maskBorderSource": w,
-      "maskBorderMode": w,
-      "maskBorderSlice": w,
-      "maskBorderWidth": w,
-      "maskBorderOutset": w,
-      "maskBorderRepeat": w,
-      "maskBorder": w,
-      "maskType": w,
+      "maskImage": wms,
+      "maskMode": wms,
+      "maskRepeat": wms,
+      "maskPosition": wms,
+      "maskClip": wms,
+      "maskOrigin": wms,
+      "maskSize": wms,
+      "maskComposite": wms,
+      "mask": wms,
+      "maskBorderSource": wms,
+      "maskBorderMode": wms,
+      "maskBorderSlice": wms,
+      "maskBorderWidth": wms,
+      "maskBorderOutset": wms,
+      "maskBorderRepeat": wms,
+      "maskBorder": wms,
+      "maskType": wms,
       "textDecorationStyle": wm,
       "textDecorationSkip": wm,
       "textDecorationLine": wm,
@@ -1624,7 +1586,7 @@
       "wrapThrough": ms,
       "wrapMargin": ms,
       "touchAction": ms,
-      "textSizeAdjust": wms,
+      "textSizeAdjust": ["ms", "Webkit"],
       "borderImage": w,
       "borderImageOutset": w,
       "borderImageRepeat": w,
@@ -1635,6 +1597,7 @@
   };
 
   var prefixAll = createPrefixer(staticData);
+
   /* ::
   import type { SheetDefinition } from './index.js';
   type StringHandlers = { [id:string]: Function };
@@ -1695,26 +1658,24 @@
    * @returns {string[] | string | null} The generated CSS for this selector, or
    *     null if we don't handle this selector.
    */
-
-  var defaultSelectorHandlers
-  /* : SelectorHandler[] */
-  = [// Handle pseudo-selectors, like :hover and :nth-child(3n)
+  var defaultSelectorHandlers /* : SelectorHandler[] */ = [
+  // Handle pseudo-selectors, like :hover and :nth-child(3n)
   function pseudoSelectors(selector, baseSelector, generateSubtreeStyles) {
     if (selector[0] !== ":") {
       return null;
     }
-
     return generateSubtreeStyles(baseSelector + selector);
-  }, // Handle media queries (or font-faces)
+  },
+  // Handle media queries (or font-faces)
   function mediaQueries(selector, baseSelector, generateSubtreeStyles) {
     if (selector[0] !== "@") {
       return null;
-    } // Generate the styles normally, and then wrap them in the media query.
-
-
+    }
+    // Generate the styles normally, and then wrap them in the media query.
     var generated = generateSubtreeStyles(baseSelector);
     return ["".concat(selector, "{").concat(generated.join(''), "}")];
   }];
+
   /**
    * Generate CSS for a selector and some styles.
    *
@@ -1758,29 +1719,15 @@
    *     generateCSSRuleset(".foo", { height: 20 }, ...)
    *     generateCSSRuleset(".foo:hover", { backgroundColor: "black" }, ...)
    */
-
-  var generateCSS = function generateCSS(selector
-  /* : string */
-  , styleTypes
-  /* : SheetDefinition[] */
-  , selectorHandlers
-  /* : SelectorHandler[] */
-  , stringHandlers
-  /* : StringHandlers */
-  , useImportant
-  /* : boolean */
-  )
-  /* : string[] */
-  {
+  var generateCSS = function generateCSS(selector /* : string */, styleTypes /* : SheetDefinition[] */, selectorHandlers /* : SelectorHandler[] */, stringHandlers /* : StringHandlers */, useImportant /* : boolean */) {
     var merged = new OrderedElements();
-
     for (var i = 0; i < styleTypes.length; i++) {
       merged.addStyleType(styleTypes[i]);
     }
-
     var plainDeclarations = new OrderedElements();
-    var generatedStyles = []; // TODO(emily): benchmark this to see if a plain for loop would be faster.
+    var generatedStyles = [];
 
+    // TODO(emily): benchmark this to see if a plain for loop would be faster.
     merged.forEach(function (val, key) {
       // For each key, see if one of the selector handlers will handle these
       // styles.
@@ -1788,7 +1735,6 @@
         var result = handler(key, selector, function (newSelector) {
           return generateCSS(newSelector, [val], selectorHandlers, stringHandlers, useImportant);
         });
-
         if (result != null) {
           // If the handler returned something, add it to the generated
           // CSS and stop looking for another handler.
@@ -1799,49 +1745,35 @@
             console.warn('WARNING: Selector handlers should return an array of rules.' + 'Returning a string containing multiple rules is deprecated.', handler);
             generatedStyles.push("@media all {".concat(result, "}"));
           }
-
           return true;
         }
-      }); // If none of the handlers handled it, add it to the list of plain
+      });
+      // If none of the handlers handled it, add it to the list of plain
       // style declarations.
-
       if (!foundHandler) {
         plainDeclarations.set(key, val, true);
       }
     });
     var generatedRuleset = generateCSSRuleset(selector, plainDeclarations, stringHandlers, useImportant, selectorHandlers);
-
     if (generatedRuleset) {
       generatedStyles.unshift(generatedRuleset);
     }
-
     return generatedStyles;
-  };
+  } /* : string[] */;
+
   /**
    * Helper method of generateCSSRuleset to facilitate custom handling of certain
    * CSS properties. Used for e.g. font families.
    *
    * See generateCSSRuleset for usage and documentation of paramater types.
    */
-
-  var runStringHandlers = function runStringHandlers(declarations
-  /* : OrderedElements */
-  , stringHandlers
-  /* : StringHandlers */
-  , selectorHandlers
-  /* : SelectorHandler[] */
-  )
-  /* : void */
-  {
+  var runStringHandlers = function runStringHandlers(declarations /* : OrderedElements */, stringHandlers /* : StringHandlers */, selectorHandlers /* : SelectorHandler[] */) {
     if (!stringHandlers) {
       return;
     }
-
     var stringHandlerKeys = Object.keys(stringHandlers);
-
     for (var i = 0; i < stringHandlerKeys.length; i++) {
       var key = stringHandlerKeys[i];
-
       if (declarations.has(key)) {
         // A declaration exists for this particular string handler, so we
         // need to let the string handler interpret the declaration first
@@ -1852,31 +1784,22 @@
         // `selectorHandlers` and have them make calls to `generateCSS`
         // themselves. Right now, this is impractical because our string
         // handlers are very specialized and do complex things.
-        declarations.set(key, stringHandlers[key](declarations.get(key), selectorHandlers), // Preserve order here, since we are really replacing an
+        declarations.set(key, stringHandlers[key](declarations.get(key), selectorHandlers),
+        // Preserve order here, since we are really replacing an
         // unprocessed style with a processed style, not overriding an
         // earlier style
         false);
       }
     }
-  };
-
-  var transformRule = function transformRule(key
-  /* : string */
-  , value
-  /* : string */
-  , transformValue
-  /* : function */
-  ) {
-    return (
-      /* : string */
-      "".concat(kebabifyStyleName(key), ":").concat(transformValue(key, value), ";")
-    );
-  };
-
+  } /* : void */;
+  var transformRule = function transformRule(key /* : string */, value /* : string */, transformValue /* : function */) {
+    return "".concat(kebabifyStyleName(key), ":").concat(transformValue(key, value), ";");
+  } /* : string */;
   var arrayToObjectKeysReducer = function arrayToObjectKeysReducer(acc, val) {
     acc[val] = true;
     return acc;
   };
+
   /**
    * Generate a CSS ruleset with the selector and containing the declarations.
    *
@@ -1908,28 +1831,14 @@
    *    generateCSSRuleset(".blah:hover", { color: "red" })
    *    -> ".blah:hover{color: red}"
    */
-
-
-  var generateCSSRuleset = function generateCSSRuleset(selector
-  /* : string */
-  , declarations
-  /* : OrderedElements */
-  , stringHandlers
-  /* : StringHandlers */
-  , useImportant
-  /* : boolean */
-  , selectorHandlers
-  /* : SelectorHandler[] */
-  )
-  /* : string */
-  {
+  var generateCSSRuleset = function generateCSSRuleset(selector /* : string */, declarations /* : OrderedElements */, stringHandlers /* : StringHandlers */, useImportant /* : boolean */, selectorHandlers /* : SelectorHandler[] */) {
     // Mutates declarations
     runStringHandlers(declarations, stringHandlers, selectorHandlers);
-    var originalElements = Object.keys(declarations.elements).reduce(arrayToObjectKeysReducer, Object.create(null)); // NOTE(emily): This mutates handledDeclarations.elements.
+    var originalElements = Object.keys(declarations.elements).reduce(arrayToObjectKeysReducer, Object.create(null));
 
+    // NOTE(emily): This mutates handledDeclarations.elements.
     var prefixedElements = prefixAll(declarations.elements);
     var elementNames = Object.keys(prefixedElements);
-
     if (elementNames.length !== declarations.keyOrder.length) {
       // There are some prefixed values, so we need to figure out how to sort
       // them.
@@ -1943,7 +1852,6 @@
           // value that was added by prefixAll. Let's try to figure out where it
           // goes.
           var originalStyle = void 0;
-
           if (elementNames[i][0] === 'W') {
             // This is a Webkit-prefixed style, like "WebkitTransition". Let's
             // find its original style's sort order.
@@ -1958,7 +1866,6 @@
             // This is a Ms-prefixed style, like "MsTransition".
             originalStyle = elementNames[i][2].toLowerCase() + elementNames[i].slice(3);
           }
-
           if (originalStyle && originalElements[originalStyle]) {
             var originalIndex = declarations.keyOrder.indexOf(originalStyle);
             declarations.keyOrder.splice(originalIndex, 0, elementNames[i]);
@@ -1971,14 +1878,11 @@
         }
       }
     }
-
     var transformValue = useImportant === false ? stringifyValue : stringifyAndImportantifyValue;
     var rules = [];
-
     for (var _i = 0; _i < declarations.keyOrder.length; _i++) {
       var key = declarations.keyOrder[_i];
       var value = prefixedElements[key];
-
       if (Array.isArray(value)) {
         // inline-style-prefixer returns an array when there should be
         // multiple rules for the same key. Here we flatten to multiple
@@ -1990,41 +1894,36 @@
         rules.push(transformRule(key, value, transformValue));
       }
     }
-
     if (rules.length) {
       return "".concat(selector, "{").concat(rules.join(""), "}");
     } else {
       return "";
     }
-  };
+  } /* : string */;
 
   /* ::
   import type { SheetDefinition, SheetDefinitions } from './index.js';
   import type { MaybeSheetDefinition } from './exports.js';
   import type { SelectorHandler } from './generate.js';
   */
+
   // The current <style> tag we are inserting into, or null if we haven't
   // inserted anything yet. We could find this each time using
   // `document.querySelector("style[data-aphrodite"])`, but holding onto it is
   // faster.
+  var styleTag /* : ?HTMLStyleElement */ = null;
 
-  var styleTag
-  /* : ?HTMLStyleElement */
-  = null; // Inject a set of rules into a <style> tag in the head of the document. This
+  // Inject a set of rules into a <style> tag in the head of the document. This
   // will automatically create a style tag and then continue to use it for
   // multiple injections. It will also use a style tag with the `data-aphrodite`
   // tag on it if that exists in the DOM. This could be used for e.g. reusing the
   // same style tag that server-side rendering inserts.
-
-  var injectStyleTag = function injectStyleTag(cssRules
-  /* : string[] */
-  ) {
+  var injectStyleTag = function injectStyleTag(cssRules /* : string[] */) {
     if (styleTag == null) {
       // Try to find a style tag with the `data-aphrodite` attribute first.
-      styleTag = document.querySelector("style[data-aphrodite]")
-      /* : any */
-      ; // If that doesn't work, generate a new style tag.
+      styleTag = document.querySelector("style[data-aphrodite]") /* : any */ /* : ?HTMLStyleElement */;
 
+      // If that doesn't work, generate a new style tag.
       if (styleTag == null) {
         // Taken from
         // http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript
@@ -2034,29 +1933,27 @@
         styleTag.setAttribute("data-aphrodite", "");
         head.appendChild(styleTag);
       }
-    } // $FlowFixMe
+    }
 
-
-    var sheet = styleTag.styleSheet || styleTag.sheet
-    /* : any */
-    ;
-
+    // $FlowFixMe
+    var sheet = styleTag.styleSheet || styleTag.sheet /* : any */ /* : CSSStyleSheet */;
     if (sheet.insertRule) {
       var numRules = sheet.cssRules.length;
       cssRules.forEach(function (rule) {
         try {
           sheet.insertRule(rule, numRules);
           numRules += 1;
-        } catch (e) {// The selector for this rule wasn't compatible with the browser
+        } catch (e) {
+          // The selector for this rule wasn't compatible with the browser
         }
       });
     } else {
       styleTag.innerText = (styleTag.innerText || '') + cssRules.join('');
     }
-  }; // Custom handlers for stringifying CSS values that have side effects
+  };
+
+  // Custom handlers for stringifying CSS values that have side effects
   // (such as fontFamily, which can cause @font-face rules to be injected)
-
-
   var stringHandlers = {
     // With fontFamily we look for objects that are passed in and interpret
     // them as @font-face rules that we need to inject. The value of fontFamily
@@ -2106,15 +2003,17 @@
         // just use the hash because the name can't start with a number.
         // TODO(emily): this probably makes debugging hard, allow a custom
         // name?
-        var name = "keyframe_".concat(hashObject(val)); // Since keyframes need 3 layers of nesting, we use `generateCSS` to
-        // build the inner layers and wrap it in `@keyframes` ourselves.
+        var name = "keyframe_".concat(hashObject(val));
 
-        var finalVal = "@keyframes ".concat(name, "{"); // TODO see if we can find a way where checking for OrderedElements
+        // Since keyframes need 3 layers of nesting, we use `generateCSS` to
+        // build the inner layers and wrap it in `@keyframes` ourselves.
+        var finalVal = "@keyframes ".concat(name, "{");
+
+        // TODO see if we can find a way where checking for OrderedElements
         // here is not necessary. Alternatively, perhaps we should have a
         // utility method that can iterate over either a plain object, an
         // instance of OrderedElements, or a Map, and then use that here and
         // elsewhere.
-
         if (val instanceof OrderedElements) {
           val.forEach(function (valVal, valKey) {
             finalVal += generateCSS(valKey, [valVal], selectorHandlers, stringHandlers, false).join('');
@@ -2124,7 +2023,6 @@
             finalVal += generateCSS(key, [val[key]], selectorHandlers, stringHandlers, false).join('');
           });
         }
-
         finalVal += '}';
         injectGeneratedCSSOnce(name, [finalVal]);
         return name;
@@ -2132,61 +2030,44 @@
         return val;
       }
     }
-  }; // This is a map from Aphrodite's generated class names to `true` (acting as a
+  };
+
+  // This is a map from Aphrodite's generated class names to `true` (acting as a
   // set of class names)
+  var alreadyInjected = {};
 
-  var alreadyInjected = {}; // This is the buffer of styles which have not yet been flushed.
+  // This is the buffer of styles which have not yet been flushed.
+  var injectionBuffer /* : string[] */ = [];
 
-  var injectionBuffer
-  /* : string[] */
-  = []; // A flag to tell if we are already buffering styles. This could happen either
+  // A flag to tell if we are already buffering styles. This could happen either
   // because we scheduled a flush call already, so newly added styles will
   // already be flushed, or because we are statically buffering on the server.
-
   var isBuffering = false;
-
   var injectGeneratedCSSOnce = function injectGeneratedCSSOnce(key, generatedCSS) {
     var _injectionBuffer;
-
     if (alreadyInjected[key]) {
       return;
     }
-
     if (!isBuffering) {
       // We should never be automatically buffering on the server (or any
       // place without a document), so guard against that.
       if (typeof document === "undefined") {
         throw new Error("Cannot automatically buffer without a document");
-      } // If we're not already buffering, schedule a call to flush the
+      }
+
+      // If we're not already buffering, schedule a call to flush the
       // current styles.
-
-
       isBuffering = true;
       browserAsap(flushToStyleTag);
     }
-
     (_injectionBuffer = injectionBuffer).push.apply(_injectionBuffer, _toConsumableArray(generatedCSS));
-
     alreadyInjected[key] = true;
   };
-
-  var injectStyleOnce = function injectStyleOnce(key
-  /* : string */
-  , selector
-  /* : string */
-  , definitions
-  /* : SheetDefinition[] */
-  , useImportant
-  /* : boolean */
-  ) {
-    var selectorHandlers
-    /* : SelectorHandler[] */
-    = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
-
+  var injectStyleOnce = function injectStyleOnce(key /* : string */, selector /* : string */, definitions /* : SheetDefinition[] */, useImportant /* : boolean */) {
+    var selectorHandlers /* : SelectorHandler[] */ = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
     if (alreadyInjected[key]) {
       return;
     }
-
     var generated = generateCSS(selector, definitions, selectorHandlers, stringHandlers, useImportant);
     injectGeneratedCSSOnce(key, generated);
   };
@@ -2196,66 +2077,43 @@
     isBuffering = false;
     styleTag = null;
   };
-  var resetInjectedStyle = function resetInjectedStyle(key
-  /* : string */
-  ) {
+  var resetInjectedStyle = function resetInjectedStyle(key /* : string */) {
     delete alreadyInjected[key];
   };
   var startBuffering = function startBuffering() {
     if (isBuffering) {
       throw new Error("Cannot buffer while already buffering");
     }
-
     isBuffering = true;
   };
-
   var flushToArray = function flushToArray() {
     isBuffering = false;
     var ret = injectionBuffer;
     injectionBuffer = [];
     return ret;
   };
-
   var flushToString = function flushToString() {
     return flushToArray().join('');
   };
   var flushToStyleTag = function flushToStyleTag() {
     var cssRules = flushToArray();
-
     if (cssRules.length > 0) {
       injectStyleTag(cssRules);
     }
   };
-  var getRenderedClassNames = function getRenderedClassNames()
-  /* : string[] */
-  {
+  var getRenderedClassNames = function getRenderedClassNames( /* : string[] */
+  ) {
     return Object.keys(alreadyInjected);
   };
-  var addRenderedClassNames = function addRenderedClassNames(classNames
-  /* : string[] */
-  ) {
+  var addRenderedClassNames = function addRenderedClassNames(classNames /* : string[] */) {
     classNames.forEach(function (className) {
       alreadyInjected[className] = true;
     });
   };
-
-  var isValidStyleDefinition = function isValidStyleDefinition(def
-  /* : Object */
-  ) {
+  var isValidStyleDefinition = function isValidStyleDefinition(def /* : Object */) {
     return "_definition" in def && "_name" in def && "_len" in def;
   };
-
-  var processStyleDefinitions = function processStyleDefinitions(styleDefinitions
-  /* : any[] */
-  , classNameBits
-  /* : string[] */
-  , definitionBits
-  /* : Object[] */
-  , length
-  /* : number */
-  )
-  /* : number */
-  {
+  var processStyleDefinitions = function processStyleDefinitions(styleDefinitions /* : any[] */, classNameBits /* : string[] */, definitionBits /* : Object[] */, length /* : number */) {
     for (var i = 0; i < styleDefinitions.length; i += 1) {
       // Filter out falsy values from the input, to allow for
       // `css(a, test && c)`
@@ -2272,9 +2130,9 @@
         }
       }
     }
-
     return length;
-  };
+  } /* : number */;
+
   /**
    * Inject styles associated with the passed style definition objects, and return
    * an associated CSS class name.
@@ -2285,36 +2143,25 @@
    *     arbitrarily nested arrays of them, as returned as properties of the
    *     return value of StyleSheet.create().
    */
-
-
-  var injectAndGetClassName = function injectAndGetClassName(useImportant
-  /* : boolean */
-  , styleDefinitions
-  /* : MaybeSheetDefinition[] */
-  , selectorHandlers
-  /* : SelectorHandler[] */
-  )
-  /* : string */
-  {
+  var injectAndGetClassName = function injectAndGetClassName(useImportant /* : boolean */, styleDefinitions /* : MaybeSheetDefinition[] */, selectorHandlers /* : SelectorHandler[] */) {
     var classNameBits = [];
-    var definitionBits = []; // Mutates classNameBits and definitionBits and returns a length which we
+    var definitionBits = [];
+
+    // Mutates classNameBits and definitionBits and returns a length which we
     // will append to the hash to decrease the chance of hash collisions.
+    var length = processStyleDefinitions(styleDefinitions, classNameBits, definitionBits, 0);
 
-    var length = processStyleDefinitions(styleDefinitions, classNameBits, definitionBits, 0); // Break if there aren't any valid styles.
-
+    // Break if there aren't any valid styles.
     if (classNameBits.length === 0) {
       return "";
     }
-
     var className;
-
     {
       className = classNameBits.length === 1 ? "_".concat(classNameBits[0]) : "_".concat(hashString(classNameBits.join())).concat((length % 36).toString(36));
     }
-
     injectStyleOnce(className, ".".concat(className), definitionBits, useImportant, selectorHandlers);
     return className;
-  };
+  } /* : string */;
 
   /* ::
   import type { SelectorHandler } from './generate.js';
@@ -2327,32 +2174,23 @@
   export type MaybeSheetDefinition = SheetDefinition | false | null | void
   */
 
-  var unminifiedHashFn = function unminifiedHashFn(str
-  /* : string */
-  , key
-  /* : string */
-  ) {
+  var unminifiedHashFn = function unminifiedHashFn(str /* : string */, key /* : string */) {
     return "".concat(key, "_").concat(hashString(str));
-  }; // StyleSheet.create is in a hot path so we want to keep as much logic out of it
+  };
+
+  // StyleSheet.create is in a hot path so we want to keep as much logic out of it
   // as possible. So, we figure out which hash function to use once, and only
   // switch it out via minify() as necessary.
   //
   // This is in an exported function to make it easier to test.
-
-
   var initialHashFn = function initialHashFn() {
-    return hashString;
+    return  hashString ;
   };
   var hashFn = initialHashFn();
   var StyleSheet = {
-    create: function create(sheetDefinition
-    /* : SheetDefinition */
-    )
-    /* : Object */
-    {
+    create: function create(sheetDefinition /* : SheetDefinition */) /* : Object */{
       var mappedSheetDefinition = {};
       var keys = Object.keys(sheetDefinition);
-
       for (var i = 0; i < keys.length; i += 1) {
         var key = keys[i];
         var val = sheetDefinition[key];
@@ -2363,16 +2201,14 @@
           _definition: val
         };
       }
-
       return mappedSheetDefinition;
     },
     rehydrate: function rehydrate() {
-      var renderedClassNames
-      /* : string[] */
-      = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var renderedClassNames /* : string[] */ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       addRenderedClassNames(renderedClassNames);
     }
   };
+
   /**
    * Utilities for using Aphrodite server-side.
    *
@@ -2383,11 +2219,8 @@
    *     "typeof window": JSON.stringify("object")
    *   })
    */
-
   var StyleSheetServer = typeof window !== 'undefined' ? null : {
-    renderStatic: function renderStatic(renderFunc
-    /* : RenderFunction */
-    ) {
+    renderStatic: function renderStatic(renderFunc /* : RenderFunction */) {
       reset();
       startBuffering();
       var html = renderFunc();
@@ -2401,26 +2234,22 @@
       };
     }
   };
+
   /**
    * Utilities for using Aphrodite in tests.
    *
    * Not meant to be used in production.
    */
+  var StyleSheetTestUtils =  null ;
 
-  var StyleSheetTestUtils = null;
   /**
    * Generate the Aphrodite API exports, with given `selectorHandlers` and
    * `useImportant` state.
    */
-
-  function makeExports(useImportant
-  /* : boolean */
-  ) {
-    var selectorHandlers
-    /* : SelectorHandler[] */
-    = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultSelectorHandlers;
+  function makeExports(useImportant /* : boolean */) {
+    var selectorHandlers /* : SelectorHandler[] */ = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultSelectorHandlers;
     return {
-      StyleSheet: _objectSpread({}, StyleSheet, {
+      StyleSheet: _objectSpread2(_objectSpread2({}, StyleSheet), {}, {
         /**
          * Returns a version of the exports of Aphrodite (i.e. an object
          * with `css` and `StyleSheet` properties) which have some
@@ -2437,13 +2266,13 @@
          * @returns {Object} An object containing the exports of the new
          *     instance of Aphrodite.
          */
-        extend: function extend(extensions
-        /* : Extension[] */
-        ) {
-          var extensionSelectorHandlers = extensions // Pull out extensions with a selectorHandler property
+        extend: function extend(extensions /* : Extension[] */) {
+          var extensionSelectorHandlers = extensions
+          // Pull out extensions with a selectorHandler property
           .map(function (extension) {
             return extension.selectorHandler;
-          }) // Remove nulls (i.e. extensions without a selectorHandler property).
+          })
+          // Remove nulls (i.e. extensions without a selectorHandler property).
           .filter(function (handler) {
             return handler;
           });
@@ -2452,25 +2281,21 @@
       }),
       StyleSheetServer: StyleSheetServer,
       StyleSheetTestUtils: StyleSheetTestUtils,
-      minify: function minify(shouldMinify
-      /* : boolean */
-      ) {
+      minify: function minify(shouldMinify /* : boolean */) {
         hashFn = shouldMinify ? hashString : unminifiedHashFn;
       },
-      css: function css()
-      /* : MaybeSheetDefinition[] */
-      {
+      css: function css() {
         for (var _len = arguments.length, styleDefinitions = new Array(_len), _key = 0; _key < _len; _key++) {
           styleDefinitions[_key] = arguments[_key];
         }
-
         return injectAndGetClassName(useImportant, styleDefinitions, selectorHandlers);
       },
       flushToStyleTag: flushToStyleTag,
       injectAndGetClassName: injectAndGetClassName,
       defaultSelectorHandlers: defaultSelectorHandlers,
       reset: reset,
-      resetInjectedStyle: resetInjectedStyle
+      resetInjectedStyle: resetInjectedStyle,
+      startBuffering: startBuffering
     };
   }
 
@@ -2478,28 +2303,30 @@
 
   var Aphrodite = makeExports(useImportant);
   var StyleSheet$1 = Aphrodite.StyleSheet,
-      StyleSheetServer$1 = Aphrodite.StyleSheetServer,
-      StyleSheetTestUtils$1 = Aphrodite.StyleSheetTestUtils,
-      css = Aphrodite.css,
-      minify = Aphrodite.minify,
-      flushToStyleTag$1 = Aphrodite.flushToStyleTag,
-      injectAndGetClassName$1 = Aphrodite.injectAndGetClassName,
-      defaultSelectorHandlers$1 = Aphrodite.defaultSelectorHandlers,
-      reset$1 = Aphrodite.reset,
-      resetInjectedStyle$1 = Aphrodite.resetInjectedStyle;
+    StyleSheetServer$1 = Aphrodite.StyleSheetServer,
+    StyleSheetTestUtils$1 = Aphrodite.StyleSheetTestUtils,
+    css = Aphrodite.css,
+    minify = Aphrodite.minify,
+    flushToStyleTag$1 = Aphrodite.flushToStyleTag,
+    injectAndGetClassName$1 = Aphrodite.injectAndGetClassName,
+    defaultSelectorHandlers$1 = Aphrodite.defaultSelectorHandlers,
+    reset$1 = Aphrodite.reset,
+    resetInjectedStyle$1 = Aphrodite.resetInjectedStyle,
+    startBuffering$1 = Aphrodite.startBuffering;
 
   exports.StyleSheet = StyleSheet$1;
   exports.StyleSheetServer = StyleSheetServer$1;
   exports.StyleSheetTestUtils = StyleSheetTestUtils$1;
   exports.css = css;
-  exports.minify = minify;
+  exports.defaultSelectorHandlers = defaultSelectorHandlers$1;
   exports.flushToStyleTag = flushToStyleTag$1;
   exports.injectAndGetClassName = injectAndGetClassName$1;
-  exports.defaultSelectorHandlers = defaultSelectorHandlers$1;
+  exports.minify = minify;
   exports.reset = reset$1;
   exports.resetInjectedStyle = resetInjectedStyle$1;
+  exports.startBuffering = startBuffering$1;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=aphrodite.umd.js.map

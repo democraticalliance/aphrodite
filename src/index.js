@@ -15,6 +15,7 @@ const {
     defaultSelectorHandlers,
     reset,
     resetInjectedStyle,
+    startBuffering,
 } = Aphrodite;
 
 export {
@@ -28,4 +29,5 @@ export {
     defaultSelectorHandlers,
     reset,
     resetInjectedStyle,
+    startBuffering,
 };

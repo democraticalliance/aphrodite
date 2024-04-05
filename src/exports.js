@@ -191,5 +191,6 @@ export default function makeExports(
         defaultSelectorHandlers,
         reset,
         resetInjectedStyle,
+        startBuffering,
     };
 }
